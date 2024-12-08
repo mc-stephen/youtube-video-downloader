@@ -1,0 +1,14 @@
+.button{
+    width: 250px;
+    height: 90px;
+    cursor: pointer;
+    font-size: 20px;
+    transition: 0.2s;
+    font-weight: bold;
+    border-radius: 100px;
+    background: var(--brand-color);
+
+    &:hover{
+        filter: invert();
+    }
+}   
