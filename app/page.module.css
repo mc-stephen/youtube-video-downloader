@@ -221,11 +221,6 @@
 /* Learn More Section */
 /*==================================*/
 .learnMore {
-  &,
-  & * {
-    /* outline: 1px solid red; */
-  }
-
   display: flex;
   padding: 100px 10px;
   align-items: center;
@@ -271,6 +266,7 @@
     line-height: 35px;
     text-align: center;
     width: calc(40 * 12px);
+    text-transform: capitalize;
   }
 
   > .row {
@@ -292,6 +288,220 @@
   }
 }
 
+/*==================================*/
+/* Learn More Section */
+/*==================================*/
+.howToSection {
+  gap: 50px;
+  display: flex;
+  padding: 100px 10px;
+  align-items: center;
+  justify-content: center;
+  background: #00000010;
+
+  /*==================================*/
+  > .imgCont {
+    height: 600px;
+    width: max(600px);
+    background: #000;
+    border-radius: 10px;
+  }
+
+  /*==================================*/
+  > .stepsCont {
+    display: flex;
+    width: max(700px);
+    flex-direction: column;
+
+    & > b {
+      opacity: 0.7;
+      font-size: 45px;
+      font-weight: normal;
+    }
+
+    & > h2 {
+      font-size: 60px;
+      color: var(--brand-color);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+        sans-serif;
+
+      & > span {
+        color: var(--foreground);
+      }
+    }
+
+    > .cardCont {
+      gap: 30px;
+      display: flex;
+      margin-top: 30px;
+      height: max-content;
+      flex-direction: column;
+
+      > .card {
+        gap: 20px;
+        display: flex;
+        align-items: center;
+        --indicator-size: 80px;
+
+        &:nth-child(2) {
+          > .indicator {
+            color: #fff;
+            background: var(--brand-color);
+          }
+        }
+
+        > .indicator {
+          display: flex;
+          font-size: 20px;
+          font-weight: bold;
+          align-items: center;
+          border-radius: 50px;
+          justify-content: center;
+          color: var(--brand-color);
+          width: var(--indicator-size);
+          height: var(--indicator-size);
+          border: 1px solid var(--brand-color);
+        }
+
+        > .column {
+          gap: 10px;
+          display: flex;
+          flex-direction: column;
+          width: calc(100% - (var(--indicator-size) + 20px));
+
+          > .title {
+            font-size: 30px;
+          }
+          > .content {
+            opacity: 0.8;
+            font-size: 18px;
+            text-transform: capitalize;
+            line-height: calc(18px + 10px);
+          }
+        }
+      }
+    }
+  }
+}
+
+/*==================================*/
+/* Learn More Section */
+/*==================================*/
+.featuresSection {
+  display: flex;
+  padding: 100px 10px;
+  align-items: center;
+  justify-content: center;
+
+  > .card {
+    gap: 30px;
+    display: flex;
+    width: max(450px);
+    padding: 50px 90px;
+    flex-direction: column;
+    color: var(--background);
+    background: var(--foreground);
+    --border-radius: 30px;
+
+    &:first-child {
+      position: relative;
+      border-right: 2px dashed var(--background);
+      border-radius: var(--border-radius) 0 0 var(--border-radius);
+
+      &::before {
+        top: 0;
+        right: 0;
+        content: "";
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        border-radius: 50px;
+        margin: -25px -25px 0 0;
+        background: var(--background);
+      }
+
+      &::after {
+        right: 0;
+        bottom: 0;
+        content: "";
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        border-radius: 50px;
+        margin: 0 -25px -25px 0;
+        background: var(--background);
+      }
+    }
+
+    &:nth-child(2) {
+      z-index: -1;
+      opacity: 0.9;
+      background: var(--foreground);
+    }
+
+    &:last-child {
+      position: relative;
+      border-left: 2px dashed var(--background);
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+
+      &::before {
+        top: 0;
+        left: 0;
+        content: "";
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        border-radius: 50px;
+        margin: -25px 0 0 -25px;
+        background: var(--background);
+      }
+
+      &::after {
+        left: 0;
+        bottom: 0;
+        content: "";
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        border-radius: 50px;
+        margin: 0 0 -25px -25px;
+        background: var(--background);
+      }
+    }
+
+    & > b {
+      font-size: 70px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+        sans-serif;
+    }
+
+    & > span {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: capitalize;
+      line-height: calc(18px + 15px);
+    }
+  }
+}
+
+/*==================================*/
+/* Learn More Section */
+/*==================================*/
+.whyUseUsSection {
+  &,
+  & * {
+    /* outline: 1px solid red; */
+  }
+
+  gap: 50px;
+  display: flex;
+  padding: 100px 10px;
+  align-items: center;
+  flex-direction: column;
+}
 /* @media (prefers-color-scheme: dark) {
 } */
 

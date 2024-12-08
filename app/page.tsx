@@ -3,8 +3,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // import Image from "next/image";
 import styles from "./page.module.css";
-import Button from "./utils/components/button";
 import SvgBg from "./utils/components/svg-bg";
+import Button from "./utils/components/button";
 import React, { useEffect, useState } from "react";
 
 export default function Home() {
@@ -27,6 +27,8 @@ export default function Home() {
       <HeadSection boxH={boxH} boxW={boxW - 40} />
       <LearnMoreSection />
       <HowToUseSection />
+      <FeaturesSection />
+      <WhyUseUsSection />
     </React.Fragment>
   );
 }
@@ -77,7 +79,7 @@ function HeadSection({ boxW, boxH }: { boxW: number; boxH: number }) {
               type="text"
               placeholder="Insert Youtube Video Link Here ..."
             />
-            <Button label="Download"/>
+            <Button label="Download" />
             {/* <button>Download</button> */}
           </form>
           <div>
@@ -124,10 +126,78 @@ function LearnMoreSection() {
 //
 //==================
 function HowToUseSection() {
+  const steps = [
+    {
+      title: "Find Video",
+      content:
+        "Find the video you want from among the videos available on YouTube and copy its links.",
+    },
+    {
+      title: "Paste Video",
+      content:
+        "Paste the copied link in the desired box and then wait for the system to display the desired video download links in different formats and sizes.",
+    },
+    {
+      title: "Download Video",
+      content:
+        "And in the last step, click on download from the displayed list and download the desired video and save it on your device.",
+    },
+  ];
   return (
-    <section>
-      <div></div>
-      <div></div>
+    <section className={styles.howToSection}>
+      <div className={styles.imgCont}>{/* Img goes here */}</div>
+      <div className={styles.stepsCont}>
+        <b>How To Use</b>
+        <h2>
+          YouTube <span>Downloader</span>
+        </h2>
+        <div className={styles.cardCont}>
+          {steps.map((val, i) => {
+            return (
+              <div key={i} className={styles.card}>
+                <div className={styles.indicator}>0{i + 1}</div>
+                <div className={styles.column}>
+                  <b className={styles.title}>{val.title}</b>
+                  <span className={styles.content}>{val.content}</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </section>
   );
+}
+
+//==================
+//
+//==================
+function FeaturesSection() {
+  const features = [
+    "With this platform, you can easily download any video from YouTube for free",
+    "With this platform, you can easily download any video from YouTube for free",
+    "With this platform, you can easily download any video from YouTube for free",
+  ];
+  return (
+    <section className={styles.featuresSection}>
+      {features.map((val, i) => {
+        return (
+          <div key={i} className={styles.card}>
+            <b>0{i + 1}</b>
+            <span>{val}</span>
+          </div>
+        );
+      })}
+    </section>
+  );
+}
+
+//==================
+//
+//==================
+function WhyUseUsSection() {
+  return <section className={styles.whyUseUsSection}>
+    <span>Why to choose</span>
+    <b></b>
+  </section>;
 }
