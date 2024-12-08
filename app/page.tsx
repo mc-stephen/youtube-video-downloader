@@ -1,10 +1,15 @@
 "use client";
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// import Image from "next/image";
+import Image from "next/image";
 import styles from "./page.module.css";
 import SvgBg from "./utils/components/svg-bg";
 import Button from "./utils/components/button";
+import Apple from "../public/icons/apple.png";
+import Linux from "../public/icons/linux.png";
+import LinkIcon from "../public/icons/link.png";
+import Android from "../public/icons/android.png";
+import Window from "../public/icons/window.png";
 import React, { useEffect, useState } from "react";
 
 export default function Home() {
@@ -74,7 +79,7 @@ function HeadSection({ boxW, boxH }: { boxW: number; boxH: number }) {
         {/*  */}
         <div className={styles.searchCont}>
           <form>
-            <i className="" />
+            <Image src={LinkIcon} alt="Link Icon" className={styles.img} />
             <input
               type="text"
               placeholder="Insert Youtube Video Link Here ..."
@@ -84,15 +89,15 @@ function HeadSection({ boxW, boxH }: { boxW: number; boxH: number }) {
           </form>
           <div>
             <span>Supported Platforms :</span>
-            <ul>
-              <li>x</li>
+            <div className={styles.platformsIcon}>
+              <Image src={Window} alt="Window OS Icon" className={styles.img} />
               <hr />
-              <li>x</li>
+              <Image src={Apple} alt="Apple OS Icon" className={styles.img} />
               <hr />
-              <li>x</li>
+              <Image src={Android} alt="Android Icon" className={styles.img} />
               <hr />
-              <li>x</li>
-            </ul>
+              <Image src={Linux} alt="Linux Icon" className={styles.img} />
+            </div>
           </div>
         </div>
       </div>
@@ -196,8 +201,54 @@ function FeaturesSection() {
 //
 //==================
 function WhyUseUsSection() {
-  return <section className={styles.whyUseUsSection}>
-    <span>Why to choose</span>
-    <b></b>
-  </section>;
+  const features = [
+    {
+      icon: Linux,
+      title: "High Quality",
+      content:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora rerum voluptatum maxime pariatur officia fuga provident eaque suscipit ipsa nobis ipsam consequuntur ratione, earum, harum voluptate qui non ab a.",
+    },
+    {
+      icon: Window,
+      title: "Fast Downloading",
+      content:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora rerum voluptatum maxime pariatur officia fuga provident eaque suscipit ipsa nobis ipsam consequuntur ratione, earum, harum voluptate qui non ab a.",
+    },
+    {
+      icon: Apple,
+      title: "Ultimate Download",
+      content:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora rerum voluptatum maxime pariatur officia fuga provident eaque suscipit ipsa nobis ipsam consequuntur ratione, earum, harum voluptate qui non ab a.",
+    },
+    {
+      icon: Android,
+      title: "Support All Devices",
+      content:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora rerum voluptatum maxime pariatur officia fuga provident eaque suscipit ipsa nobis ipsam consequuntur ratione, earum, harum voluptate qui non ab a.",
+    },
+  ];
+  return (
+    <section className={styles.whyUseUsSection}>
+      <span>Why to choose</span>
+      <b>
+        VideoMax <span>Downloader</span>
+      </b>
+      <div className={styles.row}>
+        {features.map((val, i) => {
+          return (
+            <div key={i} className={styles.card}>
+              <Image src={val.icon} alt={val.title} className={styles.img} />
+              <b className={styles.title}>{val.title}</b>
+              <span className={styles.content}>{val.content}</span>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
 }
+
+//==================
+//
+//==================
+function WhyUseUsSection() {}
