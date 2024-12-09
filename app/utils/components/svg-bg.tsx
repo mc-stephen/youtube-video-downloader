@@ -1,34 +1,15 @@
-export default function SvgBg({ boxW, boxH }: { boxW: number; boxH: number }) {
-  const boxR = 30;
+export default function SvgSquareBg() {
   return (
     <svg
-      width={boxW}
-      height={boxH}
       xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 609.9 658.2"
     >
-      <defs>
-        <clipPath id="rounded-polygon">
-          <path
-            stroke="black"
-            fill="transparent"
-            d={`
-                m 30,0
-                h ${boxW - boxR * 2}
-                a 30,30 0 0 1 30,30
-                v ${boxH * 0.75 - boxR * 2}
-                a 30,30 0 0 1 -30,30
-                h -${boxW * 0.5 - boxR * 2}
-                a 30,30 45 0 0 -30,30
-                v ${boxH * 0.25 - boxR * 2}
-                a 30,30 0 0 1 -30,30
-                h -${boxW * 0.5 - boxR * 2}
-                a 30,30 0 0 1 -30,-30
-                v -${boxH - boxR * 2}
-                a 30,30 0 0 1 30,-30
-              `}
-          />
-        </clipPath>
-      </defs>
+      <path
+        d="M435.3,318.5L435.3,318.5c0,10.9,8.8,19.7,19.7,19.7h119.8c10.9,0,19.7,8.8,19.7,19.7v269.5
+      c0,10.9-8.8,19.7-19.7,19.7H35.1c-10.9,0-19.7-8.8-19.7-19.7V164c0-10.9,8.8-19.7,19.7-19.7h110.6c10.9,0,19.7-8.8,19.7-19.7V30.8
+      c0-10.9,8.8-19.7,19.7-19.7h239.7c10.9,0,19.7,8.8,19.7,19.7v93.8c0,10.9,8.8,19.7,19.7,19.7h110.6c10.9,0,19.7,8.8,19.7,19.7v115
+      c0,10.9-8.8,19.7-19.7,19.7H455C444.1,298.8,435.3,307.6,435.3,318.5z"
+      />
     </svg>
   );
 }

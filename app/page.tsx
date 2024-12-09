@@ -1,20 +1,27 @@
 "use client";
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import Link from "next/link";
 import Image from "next/image";
 import styles from "./page.module.css";
-import SvgBg from "./utils/components/svg-bg";
-import Button from "./utils/components/button";
 import Apple from "../public/icons/apple.png";
 import Linux from "../public/icons/linux.png";
+import LineBg from "../public/images/line.png";
+import Woman from "../public/images/woman.png";
+import Button from "./utils/components/button";
 import LinkIcon from "../public/icons/link.png";
-import Android from "../public/icons/android.png";
 import Window from "../public/icons/window.png";
+import Android from "../public/icons/android.png";
 import React, { useEffect, useState } from "react";
+import SvgSquareBg from "./utils/components/svg-bg";
+import SvgBg from "./utils/components/svg-bg-header";
+import ArrowDown from "../public/icons/arrow_down.png";
+import SvgBgFooter from "./utils/components/svg-bg-footer";
 
 export default function Home() {
-  const boxH: number = 1150;
+  const boxH: number = 1150; // if value is changes also looked at it css
+  const currentYear = new Date().getFullYear();
   const [boxW, setBoxW] = useState<number>(1860);
+  const [openFaqId, setOpenFaqId] = useState<number>(3);
   useEffect(() => {
     setBoxW(window.innerWidth);
 
@@ -34,6 +41,15 @@ export default function Home() {
       <HowToUseSection />
       <FeaturesSection />
       <WhyUseUsSection />
+      <FooterSection
+        boxW={boxW}
+        boxH={boxH}
+        openFaqId={openFaqId}
+        currentYear={currentYear}
+        setOpenFaqId={(value: React.SetStateAction<number>) => {
+          setOpenFaqId(value);
+        }}
+      />
     </React.Fragment>
   );
 }
@@ -150,7 +166,10 @@ function HowToUseSection() {
   ];
   return (
     <section className={styles.howToSection}>
-      <div className={styles.imgCont}>{/* Img goes here */}</div>
+      <div className={styles.imgCont}>
+        <SvgSquareBg />
+        <Image src={Woman} alt="" className={styles.woman} />
+      </div>
       <div className={styles.stepsCont}>
         <b>How To Use</b>
         <h2>
@@ -251,4 +270,102 @@ function WhyUseUsSection() {
 //==================
 //
 //==================
-function WhyUseUsSection() {}
+function FooterSection({
+  boxW,
+  boxH,
+  openFaqId,
+  currentYear,
+  setOpenFaqId,
+}: {
+  boxW: number;
+  boxH: number;
+  openFaqId: number;
+  currentYear: number;
+  setOpenFaqId: React.Dispatch<React.SetStateAction<number>>;
+}) {
+  const faq = [
+    {
+      title: "What is X YouTube Downloader?",
+      content:
+        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ea sapiente esse fugit, repellendus officiis, facere nobis ut rem, fuga vero id a quia exercitationem ratione quibusdam aliquam! Sit, tempore tempora.",
+    },
+    {
+      title: "Is X YouTube Downloader free?",
+      content:
+        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ea sapiente esse fugit, repellendus officiis, facere nobis ut rem, fuga vero id a quia exercitationem ratione quibusdam aliquam! Sit, tempore tempora.",
+    },
+    {
+      title: "Where are the video stored?",
+      content:
+        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ea sapiente esse fugit, repellendus officiis, facere nobis ut rem, fuga vero id a quia exercitationem ratione quibusdam aliquam! Sit, tempore tempora.",
+    },
+    {
+      title: "Can we download unlimited?",
+      content:
+        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ea sapiente esse fugit, repellendus officiis, facere nobis ut rem, fuga vero id a quia exercitationem ratione quibusdam aliquam! Sit, tempore tempora.",
+    },
+  ];
+  return (
+    <section className={styles.footerSection}>
+      <div className={styles.svgBg}>
+        <SvgBgFooter boxH={boxH} boxW={boxW - 40} />
+      </div>
+      <div className={styles.frontLayer}>
+        <Image
+          src={LineBg}
+          alt="Ling Bg Pattern"
+          className={styles.bgPattern}
+        />
+        <div className={styles.titleCont}>
+          <span>Frequently</span>
+          <b>
+            Asked <span>Questions</span>
+          </b>
+        </div>
+        <div className={styles.faqCont}>
+          {faq.map((val, i) => {
+            const isOpened = openFaqId == i && styles.opened;
+            return (
+              <div key={i} className={`${styles.faq} ${isOpened}`}>
+                <div
+                  className={styles.titleCont}
+                  onClick={() => setOpenFaqId(i)}
+                >
+                  <span className={styles.order}>0{i + 1}.</span>
+                  <b className={styles.title}>{val.title}</b>
+                  <Image
+                    src={ArrowDown}
+                    alt="Arrow Down"
+                    className={`${styles.arrowIcon} ${isOpened}`}
+                  />
+                </div>
+                <span className={styles.content}>{val.content}</span>
+              </div>
+            );
+          })}
+        </div>
+        <footer className={styles.footer}>
+          <span>@ 2022-{currentYear} YouTube Downloader</span>
+          <div className={styles.logo}></div>
+          <ul>
+            <li>
+              <Link href="" className={styles.link}>
+                Privacy Policy
+              </Link>
+            </li>
+            <li>
+              <Link href="" className={styles.link}>
+                Terms of Services
+              </Link>
+            </li>
+            <li>
+              <Link href="" className={styles.link}>
+                Contact Us
+              </Link>
+            </li>
+          </ul>
+        </footer>
+      </div>
+    </section>
+  );
+}
