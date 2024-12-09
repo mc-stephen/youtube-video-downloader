@@ -16,8 +16,18 @@
       width: 100%;
       height: 100%;
       position: absolute;
-      background: #22222260;
+      background: #22222290;
     }
+  }
+
+  /*==================================*/
+  > .bgPattern {
+    right: 0;
+    z-index: -1;
+    opacity: 0.2;
+    bottom: -200px;
+    position: absolute;
+    transform: rotate(60deg);
   }
 
   /*==================================*/
@@ -74,16 +84,19 @@
         flex-direction: column;
 
         > .logo {
-          height: 55px;
           width: 130px;
+          height: auto;
+          object-fit: contain;
           margin-bottom: 30px;
-          border-radius: 30px;
-          background: #00000090;
+          filter: invert(10%) sepia(94%) saturate(6286%) hue-rotate(9deg)
+            brightness(88%) contrast(115%);
+          /* https://codepen.io/sosuke/pen/Pjoqqp */
         }
 
         > .subTitle {
           font-size: 50px;
-          color: #ffffffee;
+          color: #ffffff;
+          opacity: var(--opacity);
         }
 
         > .title {
@@ -596,11 +609,6 @@
 /* Learn More Section */
 /*==================================*/
 .footerSection {
-  &,
-  & * {
-    /* outline: 1px solid red; */
-  }
-
   width: 100%;
   position: relative;
 
