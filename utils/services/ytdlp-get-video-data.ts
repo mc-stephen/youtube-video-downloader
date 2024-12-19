@@ -29,7 +29,6 @@ export default async function GetVideoData({
 
         if (vidUrl.includes("youtube.com")) {
           data = await GetYoutubeVideoData({ vidUrl: vidUrl });
-          // data = await GetVideoDataUsingYtDlp({ vidUrl: vidUrl });
         } else {
           data = await GetVideoDataUsingYtDlp({ vidUrl: vidUrl });
         }

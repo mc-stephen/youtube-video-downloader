@@ -52,17 +52,25 @@ function extractVideoId(url: string): string | null {
   try {
     const parsedUrl = new URL(url);
 
-    // Check for youtu.be short URL
+    // Check for youtu.be short URL (standard YouTube video)
     if (parsedUrl.hostname === "youtu.be") {
       return parsedUrl.pathname.slice(1); // Return the part after "/"
     }
 
-    // Check for youtube.com URL with query parameters
+    // Check for youtube.com URL (standard YouTube video)
     if (
       parsedUrl.hostname === "www.youtube.com" ||
       parsedUrl.hostname === "youtube.com"
     ) {
-      return parsedUrl.searchParams.get("v"); // Return the "v" parameter
+      // Check if it's a regular video URL (youtube.com/watch?v=videoId)
+      if (parsedUrl.pathname === "/watch") {
+        return parsedUrl.searchParams.get("v"); // Return the "v" parameter
+      }
+
+      // Check if it's a YouTube Shorts URL (youtube.com/shorts/videoId)
+      if (parsedUrl.pathname.startsWith("/shorts/")) {
+        return parsedUrl.pathname.split("/")[2]; // Extract videoId from "/shorts/videoId"
+      }
     }
 
     // If the URL doesn't match any valid patterns
