@@ -1,0 +1,886 @@
+/*==================================*/
+/* Head Section */
+/*==================================*/
+.head {
+  margin: 0 auto;
+  width: fit-content;
+  position: relative;
+
+  /*==================================*/
+  > .imgLayer {
+    clip-path: url(#rounded-polygon);
+    background-image: url("/images/svg_bg_img.jpg");
+
+    > .imgCover {
+      top: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      background: #22222290;
+    }
+  }
+
+  /*==================================*/
+  > .bgPattern {
+    right: 50px;
+    z-index: -1;
+    opacity: 0.2;
+    width: 600px;
+    bottom: -300px;
+    position: absolute;
+    object-fit: contain;
+    transform: rotate(30deg);
+  }
+
+  /*==================================*/
+  > .frontLayer {
+    top: 0;
+    left: 0;
+    gap: 20px;
+    width: 100%;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    flex-direction: column;
+
+    /*==================================*/
+    & > nav {
+      width: 100%;
+      height: 100px;
+      display: flex;
+      padding: 15px 20px;
+      border-radius: 30px 30px 0 0;
+      justify-content: space-between;
+
+      > .logo {
+        width: 200px;
+        height: 100%;
+        border-radius: 20px;
+        background: #00000090;
+      }
+
+      > .other {
+        width: 500px;
+        height: 100%;
+        border-radius: 20px;
+        background: #00000090;
+      }
+    }
+
+    /*==================================*/
+    > .sliderCont {
+      width: 100%;
+      display: flex;
+      padding: 50px 0 0 0;
+      align-items: center;
+      flex-direction: column;
+      justify-content: space-between;
+
+      /*==================================*/
+      > .card {
+        color: #fff;
+        display: flex;
+        width: inherit;
+        margin-bottom: 50px;
+        align-items: center;
+        flex-direction: column;
+
+        > .logo {
+          width: 100px;
+          height: auto;
+          object-fit: contain;
+          margin-bottom: 30px;
+          filter: invert(10%) sepia(94%) saturate(6286%) hue-rotate(9deg)
+            brightness(88%) contrast(115%);
+          /* https://codepen.io/sosuke/pen/Pjoqqp */
+        }
+
+        > .subTitle {
+          font-size: 30px;
+          color: #ffffff;
+          opacity: var(--opacity);
+        }
+
+        > .title {
+          font-size: 80px;
+          margin-bottom: 30px;
+          font-weight: bolder;
+          font-family: system-ui;
+        }
+
+        > .content {
+          width: 50%;
+          font-size: 20px;
+          line-height: 45px;
+          text-align: center;
+
+          & > b {
+            padding: 5px 10px;
+            border-radius: 8px;
+            transform: rotate(30deg);
+            color: var(--brand-color);
+            background: var(--foreground);
+          }
+        }
+      }
+
+      /*==================================*/
+      > .indicator {
+        gap: 10px;
+        display: flex;
+        margin-bottom: 50px;
+
+        & > div {
+          width: 40px;
+          height: 5px;
+          background: grey;
+          border-radius: 2px;
+
+          &.selected {
+            background: var(--brand-color);
+          }
+        }
+      }
+    }
+
+    /*==================================*/
+    > .searchCont {
+      width: 70vw;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      /*==================================*/
+      & > form {
+        height: 65%;
+        width: 100%;
+        padding: 15px;
+        background: #fff;
+        position: relative;
+        border-radius: 100rem;
+
+        > .img {
+          top: 50%;
+          left: 50px;
+          width: 40px;
+          position: absolute;
+          object-fit: contain;
+          transform: translateY(-50%);
+        }
+
+        & > input {
+          width: 100%;
+          height: 100%;
+          font-size: 20px;
+          border-radius: inherit;
+          background: #99999950;
+          color: var(--foreground);
+          padding: 0 200px 0 100px;
+
+          &::placeholder {
+            font-size: 20px;
+            color: var(--foreground);
+          }
+        }
+
+        & > .button {
+          top: 50%;
+          right: 30px;
+          width: 200px;
+          display: flex;
+          position: absolute;
+          align-items: center;
+          justify-content: center;
+          transform: translateY(-50%);
+          height: calc((260 * 0.65px) - 55px - 40px);
+
+          &:hover,
+          &.nonactive {
+            filter: unset;
+            background: var(--foreground);
+          }
+
+          & > .loader {
+            width: 40px;
+            height: fit-content;
+            object-fit: contain;
+          }
+
+          > .cloudflareTurnstile {
+            left: 50%;
+            bottom: 120%;
+            padding: 20px;
+            display: none;
+            /* display: flex; */
+            transition: 5s;
+            position: absolute;
+            border-radius: 10px;
+            animation: slideUp 0.5s;
+            transform: translateX(-50%);
+            background: var(--foreground);
+
+            &.show {
+              display: flex;
+            }
+
+            &::after {
+              left: 50%;
+              content: "";
+              bottom: -20px;
+              position: absolute;
+              transform: translateX(-50%);
+              border-left: 10px solid transparent;
+              border-right: 10px solid transparent;
+              border-bottom: 10px solid transparent;
+              border-top: 10px solid var(--foreground);
+            }
+          }
+        }
+
+        & > i {
+          position: absolute;
+        }
+      }
+
+      /*==================================*/
+      & > div {
+        width: 70%;
+        height: 35%;
+        display: flex;
+        color: #fff;
+        padding: 0 50px;
+        align-items: center;
+        border-radius: 0 0 50px 50px;
+        background: var(--foreground);
+        justify-content: space-between;
+
+        & > span {
+          font-size: 17px;
+          font-weight: bold;
+          letter-spacing: 1px;
+
+          > .link {
+            font-family: system-ui;
+            opacity: var(--opacity);
+          }
+        }
+
+        > .platformsIcon {
+          gap: 10px;
+          display: flex;
+          font-size: 30px;
+          list-style: none;
+          font-weight: bold;
+          align-items: center;
+
+          & hr {
+            height: 20px;
+          }
+
+          > .link {
+            height: 30px;
+
+            & svg {
+              width: 30px;
+              height: fit-content;
+              border-radius: 5px;
+              fill: var(--background);
+              opacity: var(--opacity);
+
+              &:hover {
+                opacity: unset;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/*==================================*/
+/* Learn More Section */
+/*==================================*/
+.learnMore {
+  display: flex;
+  padding: 100px 10px;
+  align-items: center;
+  flex-direction: column;
+
+  > .subTitle {
+    word-spacing: 10px;
+    font-size: var(--sub-title);
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+
+    & > span {
+      color: #ffffff;
+      font-weight: bold;
+      position: relative;
+
+      &::before {
+        top: 50%;
+        right: 50%;
+        z-index: -1;
+        content: "";
+        position: absolute;
+        border-radius: 50px;
+        width: calc(100% + 15px);
+        height: calc(100% + 5px);
+        background: var(--brand-color);
+        transform: translate(50%, -50%) rotate(-3deg);
+      }
+    }
+  }
+
+  > .title {
+    font-weight: bold;
+    font-size: var(--title);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
+  }
+
+  > .content {
+    margin: 30px 0;
+    line-height: 35px;
+    text-align: center;
+    width: calc(40 * 12px);
+    text-transform: capitalize;
+  }
+
+  > .row {
+    gap: 20px;
+    display: flex;
+    margin-top: 30px;
+    align-items: center;
+    justify-content: center;
+
+    & > button:first-child {
+      color: var(--foreground);
+      background: var(--background);
+      border: 1px solid var(--foreground);
+    }
+
+    & > button:last-child {
+      color: var(--background);
+      background: var(--foreground);
+      box-shadow: 0px 30px 160px 1px var(--foreground);
+    }
+  }
+}
+
+/*==================================*/
+/* Learn More Section */
+/*==================================*/
+.howToSection {
+  gap: 40px;
+  display: flex;
+  padding: 100px 10px;
+  align-items: center;
+  justify-content: center;
+  background: var(--secondary-background);
+
+  /*==================================*/
+  > .imgCont {
+    height: 500px;
+    display: flex;
+    width: max(500px);
+    position: relative;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+
+    & > svg {
+      height: 100%;
+      object-fit: contain;
+      fill: var(--brand-color);
+    }
+
+    > .woman {
+      left: 20px;
+      width: 100%;
+      bottom: 8px;
+      position: absolute;
+      object-fit: contain;
+      height: fit-content;
+    }
+  }
+
+  /*==================================*/
+  > .stepsCont {
+    display: flex;
+    width: max(600px);
+    flex-direction: column;
+
+    & > b {
+      opacity: 0.7;
+      font-weight: normal;
+      font-size: var(--sub-title);
+    }
+
+    & > h2 {
+      font-size: var(--title);
+      color: var(--brand-color);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+        sans-serif;
+
+      & > span {
+        color: var(--foreground);
+      }
+    }
+
+    > .cardCont {
+      gap: 30px;
+      display: flex;
+      margin-top: 30px;
+      height: max-content;
+      flex-direction: column;
+
+      > .card {
+        gap: 20px;
+        display: flex;
+        align-items: center;
+        --indicator-size: 60px;
+
+        &:nth-child(2) {
+          > .indicator {
+            color: #fff;
+            background: var(--brand-color);
+            box-shadow: 0px 30px 100px 0.5px var(--brand-color);
+          }
+        }
+
+        > .indicator {
+          display: flex;
+          font-size: 20px;
+          font-weight: bold;
+          align-items: center;
+          border-radius: 50px;
+          justify-content: center;
+          color: var(--brand-color);
+          width: var(--indicator-size);
+          height: var(--indicator-size);
+          border: 1px solid var(--brand-color);
+        }
+
+        > .column {
+          gap: 10px;
+          display: flex;
+          flex-direction: column;
+          width: calc(100% - (var(--indicator-size) + 20px));
+
+          > .title {
+            font-size: 22px;
+          }
+
+          > .content {
+            opacity: 0.8;
+            font-size: 16px;
+            text-transform: capitalize;
+            line-height: calc(15px + 10px);
+          }
+        }
+      }
+    }
+  }
+}
+
+/*==================================*/
+/* Learn More Section */
+/*==================================*/
+.featuresSection {
+  display: flex;
+  padding: 100px 10px;
+  align-items: stretch;
+  justify-content: center;
+
+  > .card {
+    gap: 20px;
+    display: flex;
+    width: max(400px);
+    padding: 50px 60px;
+    flex-direction: column;
+    color: var(--background);
+    background: var(--foreground);
+    --border-radius: 30px;
+
+    &:first-child {
+      position: relative;
+      border-right: 2px dashed var(--background);
+      border-radius: var(--border-radius) 0 0 var(--border-radius);
+
+      &::before {
+        top: 0;
+        right: 0;
+        content: "";
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        border-radius: 50px;
+        margin: -25px -25px 0 0;
+        background: var(--background);
+      }
+
+      &::after {
+        right: 0;
+        bottom: 0;
+        content: "";
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        border-radius: 50px;
+        margin: 0 -25px -25px 0;
+        background: var(--background);
+      }
+    }
+
+    &:nth-child(2) {
+      z-index: -1;
+      opacity: 0.9;
+      background: var(--foreground);
+    }
+
+    &:last-child {
+      position: relative;
+      border-left: 2px dashed var(--background);
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+
+      &::before {
+        top: 0;
+        left: 0;
+        content: "";
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        border-radius: 50px;
+        margin: -25px 0 0 -25px;
+        background: var(--background);
+      }
+
+      &::after {
+        left: 0;
+        bottom: 0;
+        content: "";
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        border-radius: 50px;
+        margin: 0 0 -25px -25px;
+        background: var(--background);
+      }
+    }
+
+    & > b {
+      font-size: 50px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+        sans-serif;
+    }
+
+    & > span {
+      font-weight: 550;
+      text-transform: capitalize;
+      line-height: calc(18px + 15px);
+    }
+  }
+}
+
+/*==================================*/
+/* Learn More Section */
+/*==================================*/
+.whyUseUsSection {
+  display: flex;
+  padding: 100px 10px;
+  align-items: center;
+  flex-direction: column;
+
+  & > span {
+    font-size: var(--sub-title);
+  }
+
+  & > b {
+    font-size: var(--title);
+    color: var(--brand-color);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
+
+    & > span {
+      color: var(--foreground);
+    }
+  }
+
+  > .row {
+    display: flex;
+    margin-top: 50px;
+    justify-content: center;
+
+    > .card {
+      display: flex;
+      width: max(300px);
+      padding: 20px 30px;
+      align-items: center;
+      flex-direction: column;
+
+      &:nth-child(1),
+      &:nth-child(2),
+      &:nth-child(3) {
+        border-right: 2px dashed var(--foreground);
+      }
+
+      > .img {
+        width: auto;
+        height: 60px;
+        object-fit: contain;
+        margin-bottom: 30px;
+      }
+
+      > .title {
+        font-size: 20px;
+        margin-bottom: 30px;
+      }
+
+      > .content {
+        opacity: 0.8;
+        text-align: center;
+        line-height: calc(23px);
+      }
+    }
+  }
+}
+
+/*==================================*/
+/* Learn More Section */
+/*==================================*/
+.footerSection {
+  margin: 0 auto;
+  width: fit-content;
+  position: relative;
+
+  > .svgBg {
+    background: var(--foreground);
+    clip-path: url("#footer-clipped-path");
+  }
+
+  > .frontLayer {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    color: var(--background);
+    --child-level-padding: 100px;
+
+    /*================================*/
+    > .bgPattern {
+      top: -300px;
+      z-index: -1;
+      right: 100px;
+      width: 500px;
+      opacity: 0.2;
+      position: absolute;
+      object-fit: contain;
+      transform: rotate(-30deg);
+    }
+
+    /*================================*/
+    > .titleCont {
+      z-index: 1;
+      height: 20%;
+      display: flex;
+      position: relative;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-left: var(--child-level-padding);
+
+      & > span {
+        opacity: var(--opacity);
+        font-size: var(--sub-title);
+      }
+
+      & > b {
+        gap: 10px;
+        display: flex;
+        font-size: var(--title);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+
+        & > span {
+          position: relative;
+
+          &::after {
+            top: 0;
+            left: -5px;
+            z-index: -1;
+            content: "";
+            height: 100%;
+            position: absolute;
+            border-radius: 100px;
+            transform: rotate(-2deg);
+            width: calc(100% + 15px);
+            background: var(--brand-color);
+          }
+        }
+      }
+    }
+
+    /*================================*/
+    > .faqCont {
+      height: 70%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 50px var(--child-level-padding);
+      --child-level-title-height: 80px; /*= title height =*/
+
+      > .faq {
+        overflow: hidden;
+        transition: 0.5s;
+        height: var(--child-level-title-height);
+        border-bottom: 1.5px dashed var(--background);
+
+        > .titleCont {
+          gap: 20px;
+          display: flex;
+          cursor: pointer;
+          font-size: 18px;
+          overflow: hidden;
+          align-items: center;
+          height: var(--child-level-title-height);
+
+          > .order {
+            font-weight: bold;
+            opacity: var(--opacity);
+          }
+
+          > .title {
+            flex-grow: 1;
+          }
+
+          > .arrowIcon {
+            width: 25px;
+            height: auto;
+            transition: 0.5s;
+            object-fit: contain;
+            opacity: var(--opacity);
+
+            &.opened {
+              opacity: unset;
+              transform: rotate(180deg);
+            }
+          }
+        }
+
+        > .content {
+          width: 80%;
+          display: block;
+          padding: 0 50px 30px 50px;
+          line-height: calc(18px + 15px);
+        }
+
+        &:last-child {
+          border-bottom: unset;
+        }
+
+        &.opened {
+          height: auto;
+        }
+      }
+    }
+
+    /*================================*/
+    > .footer {
+      height: 10%;
+      display: flex;
+      align-items: center;
+      color: var(--foreground);
+      justify-content: space-between;
+
+      & > * {
+        height: 100%;
+      }
+
+      & > span {
+        width: 40%;
+        display: flex;
+        align-items: center;
+        padding: 0 0 0 var(--child-level-padding);
+      }
+
+      & > div {
+        width: 20%;
+        border-radius: 10px;
+        /* background: #55555590; */
+      }
+
+      & > ul {
+        gap: 20px;
+        width: 40%;
+        display: flex;
+        list-style: none;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 0 var(--child-level-padding) 0 0;
+
+        & > li,
+        & > li > .link {
+          height: 60px;
+          display: flex;
+          cursor: pointer;
+          font-weight: bold;
+          position: relative;
+          align-items: center;
+          justify-content: center;
+
+          &::after {
+            left: 0;
+            bottom: 0;
+            content: "";
+            width: 0px;
+            height: 5px;
+            transition: 0.5s;
+            position: absolute;
+            border-radius: 10px;
+            background: var(--brand-color);
+          }
+
+          &:hover {
+            &::after {
+              width: 30px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* @media (prefers-color-scheme: dark) {
+} */
+
+/* Enable hover only on non-touch devices */
+/* @media (hover: hover) and (pointer: fine) {
+} */
+
+/* @media (prefers-color-scheme: dark) {
+  .logo {
+    filter: invert();
+  }
+} */
+
+@keyframes slideUp {
+  from {
+    opacity: 0.5;
+    margin-bottom: -20px;
+  }
+  to {
+    opacity: 1;
+    margin-bottom: 0px;
+  }
+}

@@ -1,0 +1,11 @@
+.button{
+    width: 180px;
+    height: 70px;
+    cursor: pointer;
+    font-size: 20px;
+    font-size: 17px;
+    transition: 0.2s;
+    font-weight: bold;
+    border-radius: 100px;
+    background: var(--brand-color);
+}   
