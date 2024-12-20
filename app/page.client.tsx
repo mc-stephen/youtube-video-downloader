@@ -58,12 +58,34 @@ export default function IndexClient() {
 //==================
 function HeadSection({ boxW }: { boxW: number }) {
   const boxH: number = 900; // if value is changes also looked at it css
-  // const turnstileValue = useRef("");
   const formRef = useRef<HTMLFormElement>(null);
+  const turnstileToken = useRef<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showDialog, setShowDialog] = useState<boolean>(false);
   const [showTurnstile, setShowTurnstile] = useState<boolean>(false);
   const [allVideoData, setAllVideoData] = useState<VideoFormats[]>([]);
+  const nav: Record<string, string>[] = [
+    {
+      path: "",
+      label: "Donate",
+    },
+    {
+      path: "",
+      label: "About Us",
+    },
+    {
+      path: "",
+      label: "Extensions",
+    },
+    {
+      path: "",
+      label: "More Tools",
+    },
+    {
+      path: "",
+      label: "Special Thanks",
+    },
+  ];
   const socials = [
     {
       icon: <LinkedInSvg />,
@@ -115,31 +137,45 @@ function HeadSection({ boxW }: { boxW: number }) {
   //==========================
   //
   //==========================
-  useEffect(() => {
-    RenderTurnstile(async (token: string) => {
-      const formElement = formRef.current;
-      if (formElement) {
+  const sendRequest = useCallback(() => {
+    const formElement = formRef.current;
+    const formData = new FormData(formElement!);
+    const videoUrl = formData.get("video_url")!.valueOf().toString();
+    const urlRegex =
+      /^(https?:\/\/)?(www\.)?([\w\-]+\.)+[\w]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/i;
+    if (turnstileToken.current != null) {
+      if (urlRegex.test(videoUrl)) {
         setIsLoading(true);
         setShowTurnstile(false);
-        const formData = new FormData(formElement);
-        const videoUrl = formData.get("video_url")!.valueOf().toString();
-        try {
-          const result = await GetVideoData({
-            vidUrl: videoUrl,
-            turnstileClientToken: token,
+        const request = GetVideoData({
+          vidUrl: videoUrl,
+          turnstileClientToken: turnstileToken.current,
+        });
+        request
+          .then((res) => {
+            if (res) {
+              console.log(res);
+              setIsLoading(false);
+              setShowDialog(true);
+              setAllVideoData([...allVideoData, res]);
+            }
+          })
+          .catch((err) => {
+            console.error("[Client Error] Getting Video Data", err);
           });
-          if (result) {
-            console.log(result);
-            setIsLoading(false);
-            setShowDialog(true);
-            setAllVideoData([result, ...allVideoData]);
-          }
-        } catch (error) {
-          console.error("[Client Error] Getting Video Data", error);
-        }
       }
-    });
+    }
   }, [allVideoData]);
+
+  //==========================
+  //
+  //==========================
+  useEffect(() => {
+    RenderTurnstile((token: string) => {
+      turnstileToken.current = token;
+      sendRequest();
+    });
+  }, [sendRequest]);
 
   return (
     <>
@@ -166,10 +202,22 @@ function HeadSection({ boxW }: { boxW: number }) {
 
         {/*  */}
         <div className={styles.frontLayer}>
-          <nav>
-            <div className={styles.logo}></div>
-            <div className={styles.other}></div>
-          </nav>
+          <header>
+            <div className={styles.logo}>
+              <h1>{process.env.NEXT_PUBLIC_APP_NAME}</h1>
+            </div>
+            <ul className={styles.other}>
+              {nav.map((val, i) => {
+                return (
+                  <li key={i}>
+                    <Link href="" className={styles.link}>
+                      {val.label}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </header>
 
           {/*  */}
           <div className={styles.sliderCont}>
@@ -200,7 +248,6 @@ function HeadSection({ boxW }: { boxW: number }) {
                 type="text"
                 name="video_url"
                 placeholder="Insert Youtube Video Link Here ..."
-                // defaultValue="https://www.youtube.com/watch?v=0TnO1GzKWPc"
               />
               <Button
                 style={`${styles.button} ${isLoading && styles.nonactive}`}
@@ -310,7 +357,7 @@ function HowToUseSection() {
       <div className={styles.stepsCont}>
         <b>How To Use</b>
         <h2>
-          YouTube <span>Downloader</span>
+          {process.env.NEXT_PUBLIC_APP_NAME} <span>Downloader</span>
         </h2>
         <div className={styles.cardCont}>
           {steps.map((val, i) => {
@@ -419,24 +466,24 @@ function FooterSection({ boxW }: { boxW: number }) {
   const boxH: number = 900; // if value is changes also looked at it css
   const faq = [
     {
-      title: "What is X YouTube Downloader?",
+      title: `What is ${process.env.NEXT_PUBLIC_APP_NAME} Downloader?`,
       content:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ea sapiente esse fugit, repellendus officiis, facere nobis ut rem, fuga vero id a quia exercitationem ratione quibusdam aliquam! Sit, tempore tempora.",
+        "VideoMax Downloader is an online tool that allows users to download videos and music from various platforms directly to their devices. It supports high-quality downloads and is compatible with multiple formats, making it convenient for offline viewing or listening.",
     },
     {
-      title: "Is X YouTube Downloader free?",
+      title: `Is ${process.env.NEXT_PUBLIC_APP_NAME} Downloader free?`,
       content:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ea sapiente esse fugit, repellendus officiis, facere nobis ut rem, fuga vero id a quia exercitationem ratione quibusdam aliquam! Sit, tempore tempora.",
+        "Yes, VideoMax Downloader is completely free to use. It allows users to download videos and music from various platforms, such as YouTube, without any cost or subscription fees. The tool offers high-quality downloads and supports multiple formats, making it a convenient and accessible option for anyone looking to save content for offline use.",
     },
     {
       title: "Where are the video stored?",
       content:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ea sapiente esse fugit, repellendus officiis, facere nobis ut rem, fuga vero id a quia exercitationem ratione quibusdam aliquam! Sit, tempore tempora.",
+        'When you use VideoMax Downloader, downloaded videos are stored directly on your device, typically in the default "Downloads" folder. The exact location may vary depending on your device and browser settings. Check your browser\'s download preferences to confirm or customize the save location.',
     },
     {
       title: "Can we download unlimited?",
       content:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ea sapiente esse fugit, repellendus officiis, facere nobis ut rem, fuga vero id a quia exercitationem ratione quibusdam aliquam! Sit, tempore tempora.",
+        "Yes, VideoMax Downloader allows unlimited downloads, so you can save as many videos or music files as you want without any restrictions. There are no caps on the number of downloads or the file size, making it a convenient tool for extensive use.",
     },
   ];
   return (
@@ -480,7 +527,18 @@ function FooterSection({ boxW }: { boxW: number }) {
         </div>
         <footer className={styles.footer}>
           <span>@ 2022-{currentYear} YouTube Downloader</span>
-          <div className={styles.logo}></div>
+          <div className={styles.middleCont}>
+            <Image
+              width="100"
+              height="100"
+              alt="code-fork"
+              className={styles.img}
+              src="https://img.icons8.com/ios/100/versions.png"
+            />
+            <Link href="" className={styles.version}>
+              2024.12.20
+            </Link>
+          </div>
           <ul>
             <li>
               <Link href="" className={styles.link}>

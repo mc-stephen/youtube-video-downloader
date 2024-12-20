@@ -12,7 +12,6 @@ export default function Home() {
 export const metadata: Metadata = {
   title: "VideoMax - Download YouTube Videos Easily",
   manifest: "https://www.videomax.com/manifest.json",
-  themeColor: "#1d3557", // A blueish theme color for the app
   description:
     "VideoMax is the ultimate tool for downloading videos from YouTube and other platforms in high quality. Fast, secure, and free to use!",
   openGraph: {

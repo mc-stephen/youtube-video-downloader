@@ -7,31 +7,17 @@ import CloseIcon from "./close-icon";
 import VideoFormats from "../types/video-format";
 import styles from "./styles/download_modal.module.css";
 import { MouseEventHandler, useCallback, useState } from "react";
-import DownloadVideoYtdlp from "../services/ytdlp-download-video";
+// import DownloadVideoYtdlp from "../services/ytdlp-download-video";
 import LoadingAnimatedIcon from "@/public/icons/animated/animated_loader.svg";
 
-export default function DownloadModal({
-  active,
-  onclick,
-  videoData,
-}: {
-  active: boolean;
-  videoData: VideoFormats[];
-  onclick: MouseEventHandler<HTMLDivElement>;
-}) {
+export default function DownloadModal({ active, onclick, videoData }: cc) {
   const [loadingIds, setLoadingIds] = useState<number[]>([]);
 
   //===============================
   // Download Video
   //===============================
   const DownloadVideo = useCallback(
-    async ({
-      i,
-      event,
-    }: {
-      i: number;
-      event: React.FormEvent<HTMLFormElement>;
-    }) => {
+    async ({ i, event }: vv) => {
       event.preventDefault();
 
       const def = "default";
@@ -63,24 +49,25 @@ export default function DownloadModal({
 
         // now download video is audio/video format selected
         try {
-          const videoPath = await DownloadVideoYtdlp({
-            videoUrl: videoUrl,
-            audioFormatId: audioFormatId == def ? null : audioFormatId,
-            videoFormatId: videoFormatId == def ? null : videoFormatId,
-          });
-          if (videoPath) {
-            const { origin } = window.location;
-            const anchor = document.createElement("a");
-            const fileName = videoPath!.trim().split("/").pop();
-            const encodedFilePath = encodeURIComponent(videoPath.trim());
-            const filePath = `${origin}/api/download?file=${encodedFilePath}`;
-            //
-            anchor.href = filePath;
-            anchor.target = "_blank";
-            anchor.download = fileName!;
-            anchor.rel = "noopener noreferrer";
-            anchor.click();
-          }
+          console.log([videoUrl, audioFormatId, videoFormatId]);
+          // const videoPath = await DownloadVideoYtdlp({
+          //   videoUrl: videoUrl,
+          //   audioFormatId: audioFormatId == def ? null : audioFormatId,
+          //   videoFormatId: videoFormatId == def ? null : videoFormatId,
+          // });
+          // if (videoPath) {
+          //   const { origin } = window.location;
+          //   const anchor = document.createElement("a");
+          //   const fileName = videoPath!.trim().split("/").pop();
+          //   const encodedFilePath = encodeURIComponent(videoPath.trim());
+          //   const filePath = `${origin}/api/download?file=${encodedFilePath}`;
+          //   //
+          //   anchor.href = filePath;
+          //   anchor.target = "_blank";
+          //   anchor.download = fileName!;
+          //   anchor.rel = "noopener noreferrer";
+          //   anchor.click();
+          // }
         } catch (error) {
           console.error(`[Client Error] Download Video Failed:  ${error}`);
         } finally {
@@ -187,3 +174,14 @@ export default function DownloadModal({
     </section>
   );
 }
+
+type vv = {
+  i: number;
+  event: React.FormEvent<HTMLFormElement>;
+};
+
+type cc = {
+  active: boolean;
+  videoData: VideoFormats[];
+  onclick: MouseEventHandler<HTMLDivElement>;
+};

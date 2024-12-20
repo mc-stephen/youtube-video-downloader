@@ -7,5 +7,6 @@
     transition: 0.2s;
     font-weight: bold;
     border-radius: 100px;
+    color: var(--background);
     background: var(--brand-color);
 }   
