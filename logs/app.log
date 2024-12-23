@@ -554,3 +554,4 @@
 {"level":"info","message":"Deleting original file ./public/downloads/10 AWESOME CLI TOOLS TO SUPERCHARGE YOUR WORKFLOWS-1080p-248+251.f248.webm (pass -k to keep)","timestamp":"2024-12-19T14:33:25.337Z"}
 {"level":"info","message":"path: ./public/downloads/10 AWESOME CLI TOOLS TO SUPERCHARGE YOUR WORKFLOWS-1080p-248+251.webm\n","timestamp":"2024-12-19T14:33:25.337Z"}
 {"level":"error","message":"[Turnstile] Token verification failed: [object Object]","timestamp":"2024-12-20T08:00:38.704Z"}
+{"level":"error","message":"[Turnstile] Fetch error => TypeError: fetch failed","timestamp":"2024-12-23T09:58:45.899Z"}

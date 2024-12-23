@@ -7,7 +7,7 @@ import CloseIcon from "./close-icon";
 import VideoFormats from "../types/video-format";
 import styles from "./styles/download_modal.module.css";
 import { MouseEventHandler, useCallback, useState } from "react";
-// import DownloadVideoYtdlp from "../services/ytdlp-download-video";
+import DownloadVideoYtdlp from "../services/ytdlp-download-video";
 import LoadingAnimatedIcon from "@/public/icons/animated/animated_loader.svg";
 
 export default function DownloadModal({ active, onclick, videoData }: cc) {
@@ -50,24 +50,24 @@ export default function DownloadModal({ active, onclick, videoData }: cc) {
         // now download video is audio/video format selected
         try {
           console.log([videoUrl, audioFormatId, videoFormatId]);
-          // const videoPath = await DownloadVideoYtdlp({
-          //   videoUrl: videoUrl,
-          //   audioFormatId: audioFormatId == def ? null : audioFormatId,
-          //   videoFormatId: videoFormatId == def ? null : videoFormatId,
-          // });
-          // if (videoPath) {
-          //   const { origin } = window.location;
-          //   const anchor = document.createElement("a");
-          //   const fileName = videoPath!.trim().split("/").pop();
-          //   const encodedFilePath = encodeURIComponent(videoPath.trim());
-          //   const filePath = `${origin}/api/download?file=${encodedFilePath}`;
-          //   //
-          //   anchor.href = filePath;
-          //   anchor.target = "_blank";
-          //   anchor.download = fileName!;
-          //   anchor.rel = "noopener noreferrer";
-          //   anchor.click();
-          // }
+          const videoPath = await DownloadVideoYtdlp({
+            videoUrl: videoUrl,
+            audioFormatId: audioFormatId == def ? null : audioFormatId,
+            videoFormatId: videoFormatId == def ? null : videoFormatId,
+          });
+          if (videoPath) {
+            const { origin } = window.location;
+            const anchor = document.createElement("a");
+            const fileName = videoPath!.trim().split("/").pop();
+            const encodedFilePath = encodeURIComponent(videoPath.trim());
+            const filePath = `${origin}/api/download?file=${encodedFilePath}`;
+            //
+            anchor.href = filePath;
+            anchor.target = "_blank";
+            anchor.download = fileName!;
+            anchor.rel = "noopener noreferrer";
+            anchor.click();
+          }
         } catch (error) {
           console.error(`[Client Error] Download Video Failed:  ${error}`);
         } finally {
