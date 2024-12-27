@@ -114,7 +114,7 @@
 
             &:hover {
               &::after {
-                width: 50%;
+                width: 30px;
               }
             }
           }
@@ -239,10 +239,10 @@
           }
         }
 
-        & > .button {
+        > .row {
           top: 50%;
+          gap: 10px;
           right: 30px;
-          width: 200px;
           display: flex;
           position: absolute;
           align-items: center;
@@ -250,52 +250,74 @@
           transform: translateY(-50%);
           height: calc((260 * 0.65px) - 55px - 40px);
 
-          &:hover,
-          &.nonactive {
-            filter: unset;
+          & > button:last-child {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background: var(--foreground);
-          }
+            width: calc((260 * 0.65px) - 55px - 40px);
 
-          & > .loader {
-            width: 40px;
-            height: fit-content;
-            object-fit: contain;
-          }
-
-          > .cloudflareTurnstile {
-            left: 50%;
-            bottom: 120%;
-            padding: 20px;
-            display: none;
-            /* display: flex; */
-            transition: 5s;
-            position: absolute;
-            border-radius: 10px;
-            animation: slideUp 0.5s;
-            transform: translateX(-50%);
-            background: var(--foreground);
-
-            &.show {
-              display: flex;
+            &:hover{
+             filter: invert()
             }
 
-            &::after {
+            > .img {
+              width: 30px;
+              object-fit: contain;
+            }
+          }
+
+          & > .button {
+            width: 150px;
+
+            &:hover,
+            &.nonactive {
+              filter: unset;
+              background: var(--foreground);
+            }
+
+            & > .loader {
+              width: 40px;
+              height: fit-content;
+              object-fit: contain;
+            }
+
+            > .cloudflareTurnstile {
               left: 50%;
-              content: "";
-              bottom: -20px;
+              bottom: 120%;
+              padding: 20px;
+              display: none;
+              /* display: flex; */
+              transition: 5s;
               position: absolute;
+              border-radius: 10px;
+              animation: slideUp 0.5s;
               transform: translateX(-50%);
-              border-left: 10px solid transparent;
-              border-right: 10px solid transparent;
-              border-bottom: 10px solid transparent;
-              border-top: 10px solid var(--foreground);
+              background: var(--foreground);
+
+              &.show {
+                display: flex;
+              }
+
+              &::after {
+                left: 50%;
+                content: "";
+                bottom: -20px;
+                position: absolute;
+                transform: translateX(-50%);
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-bottom: 10px solid transparent;
+                border-top: 10px solid var(--foreground);
+              }
             }
           }
         }
 
-        & > i {
+        /* & > i {
           position: absolute;
-        }
+        } */
       }
 
       /*==================================*/

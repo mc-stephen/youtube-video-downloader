@@ -1,7 +1,7 @@
 "use server";
 
-import logger from "../../config/logger";
-import VideoFormats from "../../types/video-format";
+import logger from "../../../config/logger";
+import VideoFormats from "../../../types/video-format";
 
 export default async function GetYoutubeVideoData({
   vidUrl,

@@ -1,6 +1,6 @@
 # Versioning History
 
-## [Version X.X.X] - YYYY-MM-DD
+<!-- ## [Version X.X.X] - YYYY-MM-DD
 
 ### Added
 
@@ -21,7 +21,31 @@
 
 - Removed Feature 1: Reason for removal.
 
----
+--- -->
+
+## [Version 2024.12.27] - 27/Dec/2024
+
+### Added
+
+- Feature 1: Added a menu button to view previously entered videos.
+- Feature 1: Added support for tiktok.
+- Feature 2: Added support for facebook.
+- Feature 2: Added support for platforms with similar codec.
+
+### Fixed
+
+- Bug 1: Fix broken link (though their pages will be empty).
+- Bug 2: Fix the header section that just shows grey card as logo.
+- Bug 3: Hidden / Minor bug fixes.
+
+### Changed
+
+- Change 1: Change the HTML tag of the pop up dialog from <section> to the new <dialog> tag.
+- Change 2: Code optimization.
+
+### Removed
+
+- ***
 
 ## [Version 2024.12.20] - 20/Dec/2024
 
@@ -41,7 +65,9 @@
 
 - Change 1: Description of the change.
 
----
+### Removed
+
+- ***
 
 ## [Version 2024.12.19] - 19/Dec/2024
 

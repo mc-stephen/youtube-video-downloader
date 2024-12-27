@@ -3,10 +3,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./page.module.css";
+import Routes from "@/utils/services/route";
 import LineBg from "../public/images/line.png";
 import Woman from "../public/images/woman.png";
 import Button from "../utils/components/button";
 import LinkIcon from "../public/icons/link.png";
+import menuIcon from "../public/icons/menu.png";
 import SvgSquareBg from "../utils/components/svg-bg";
 import SvgBg from "../utils/components/svg-bg-header";
 import JagaJaga from "../public/images/jaga-jaga.png";
@@ -15,8 +17,8 @@ import ArrowDown from "../public/icons/arrow_down.png";
 import RenderTurnstile from "../utils/services/turnstile";
 import SvgBgFooter from "../utils/components/svg-bg-footer";
 import DownloadModal from "../utils/components/download_modal";
-import GetVideoData from "../utils/services/ytdlp-get-video-data";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import GetVideoData from "../utils/services/yt-dlp/ytdlp-get-video-data";
 import LoadingAnimatedIcon from "../public/icons/animated/animated_loader.svg";
 import {
   TwitterSvg,
@@ -30,17 +32,19 @@ export default function IndexClient() {
   const maxWidth = 1800;
   const [boxW, setBoxW] = useState<number>(1700);
 
-  useEffect(() => {
-    const windowWidthIsMore = window.innerWidth > maxWidth;
-    const width = windowWidthIsMore ? maxWidth : window.innerWidth;
+  const calculateBoxWidth = useCallback(() => {
+    const width = window.innerWidth > maxWidth ? maxWidth : window.innerWidth;
     setBoxW(width);
-    window.addEventListener("resize", () => {
-      const windowWidthIsMore = window.innerWidth > maxWidth;
-      const width = windowWidthIsMore ? maxWidth : window.innerWidth;
-      return setBoxW(width);
-    });
-    return () => window.removeEventListener("resize", () => {});
   }, []);
+
+  useEffect(() => {
+    calculateBoxWidth();
+    window.addEventListener("resize", () => calculateBoxWidth());
+    return () => window.removeEventListener("resize", () => {});
+  }, [calculateBoxWidth]);
+
+  // if (!boxW) return <>Loading</>;
+
   return (
     <React.Fragment>
       <HeadSection boxW={boxW} />
@@ -59,31 +63,31 @@ export default function IndexClient() {
 function HeadSection({ boxW }: { boxW: number }) {
   const boxH: number = 900; // if value is changes also looked at it css
   const formRef = useRef<HTMLFormElement>(null);
+  const dialog = useRef<HTMLDialogElement>(null);
   const turnstileToken = useRef<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [showDialog, setShowDialog] = useState<boolean>(false);
   const [showTurnstile, setShowTurnstile] = useState<boolean>(false);
   const [allVideoData, setAllVideoData] = useState<VideoFormats[]>([]);
   const nav: Record<string, string>[] = [
     {
-      path: "",
       label: "Donate",
+      path: Routes.donate,
     },
     {
-      path: "",
       label: "About Us",
+      path: Routes.about_us,
     },
     {
-      path: "",
       label: "Extensions",
+      path: Routes.extension,
     },
     {
-      path: "",
       label: "More Tools",
+      path: Routes.more_tools,
     },
     {
-      path: "",
       label: "Special Thanks",
+      path: Routes.special_thanks,
     },
   ];
   const socials = [
@@ -124,7 +128,7 @@ function HeadSection({ boxW }: { boxW: number }) {
       // 02 (video already exist) ================
       const videoAlreadyExist = allVideoData.find((val) => val.url == videoUrl);
       if (videoAlreadyExist) {
-        setShowDialog(true);
+        dialog.current?.showModal();
         return;
       }
 
@@ -156,7 +160,7 @@ function HeadSection({ boxW }: { boxW: number }) {
             if (res) {
               console.log(res);
               setIsLoading(false);
-              setShowDialog(true);
+              dialog.current?.showModal();
               setAllVideoData([...allVideoData, res]);
             }
           })
@@ -180,27 +184,22 @@ function HeadSection({ boxW }: { boxW: number }) {
   return (
     <>
       <DownloadModal
-        active={showDialog}
+        ref={dialog}
         videoData={allVideoData}
-        onclick={function (): void {
-          setShowDialog(false);
-        }}
+        onClose={() => dialog.current?.close()}
       />
       <section style={{ height: `${boxH}px` }} className={styles.head}>
-        {/*  */}
+        {/*==============================*/}
+        {/* BG Layer */}
+        {/*==============================*/}
         <div className={styles.imgLayer}>
           <SvgBg boxH={boxH} boxW={boxW - 40} />
           <div className={styles.imgCover}></div>
         </div>
 
-        {/*  */}
-        <Image
-          src={LineBg}
-          alt="Ling Bg Pattern"
-          className={styles.bgPattern}
-        />
-
-        {/*  */}
+        {/*==============================*/}
+        {/* FRONT Layer */}
+        {/*==============================*/}
         <div className={styles.frontLayer}>
           <header>
             <div className={styles.logo}>
@@ -210,7 +209,7 @@ function HeadSection({ boxW }: { boxW: number }) {
               {nav.map((val, i) => {
                 return (
                   <li key={i}>
-                    <Link href="" className={styles.link}>
+                    <Link href={val.path} className={styles.link}>
                       {val.label}
                     </Link>
                   </li>
@@ -249,28 +248,41 @@ function HeadSection({ boxW }: { boxW: number }) {
                 name="video_url"
                 placeholder="Insert Youtube Video Link Here ..."
               />
-              <Button
-                style={`${styles.button} ${isLoading && styles.nonactive}`}
-                label={
-                  !isLoading ? (
-                    <>
-                      <span>Download</span>
-                      <div
-                        id="turnstile-container"
-                        className={`${styles.cloudflareTurnstile} ${
-                          showTurnstile && styles.show
-                        }`}
+              <div className={styles.row}>
+                <Button
+                  type="submit"
+                  style={`${styles.button} ${isLoading && styles.nonactive}`}
+                  label={
+                    !isLoading ? (
+                      <>
+                        <span>Download</span>
+                        <div
+                          id="turnstile-container"
+                          className={`${styles.cloudflareTurnstile} ${
+                            showTurnstile && styles.show
+                          }`}
+                        />
+                      </>
+                    ) : (
+                      <Image
+                        src={LoadingAnimatedIcon}
+                        alt="Animated loader"
+                        className={styles.loader}
                       />
-                    </>
-                  ) : (
+                    )
+                  }
+                />
+                <Button
+                  onClick={() => dialog.current?.showModal()}
+                  label={
                     <Image
-                      src={LoadingAnimatedIcon}
-                      alt="Animated loader"
-                      className={styles.loader}
+                      src={menuIcon}
+                      alt="Link Icon"
+                      className={styles.img}
                     />
-                  )
-                }
-              />
+                  }
+                />
+              </div>
             </form>
             <div>
               <span>
@@ -300,6 +312,15 @@ function HeadSection({ boxW }: { boxW: number }) {
             </div>
           </div>
         </div>
+
+        {/*==============================*/}
+        {/* Pattern Img */}
+        {/*==============================*/}
+        <Image
+          src={LineBg}
+          alt="Ling Bg Pattern"
+          className={styles.bgPattern}
+        />
       </section>
     </>
   );
@@ -526,7 +547,7 @@ function FooterSection({ boxW }: { boxW: number }) {
           })}
         </div>
         <footer className={styles.footer}>
-          <span>@ 2022-{currentYear} YouTube Downloader</span>
+          <span>@ 2024-{currentYear} YouTube Downloader</span>
           <div className={styles.middleCont}>
             <Image
               width="100"
@@ -535,23 +556,23 @@ function FooterSection({ boxW }: { boxW: number }) {
               className={styles.img}
               src="https://img.icons8.com/ios/100/versions.png"
             />
-            <Link href="" className={styles.version}>
+            <Link href={Routes.versions} className={styles.version}>
               2024.12.20
             </Link>
           </div>
           <ul>
             <li>
-              <Link href="" className={styles.link}>
+              <Link href={Routes.privacy_policy} className={styles.link}>
                 Privacy Policy
               </Link>
             </li>
             <li>
-              <Link href="" className={styles.link}>
+              <Link href={Routes.terms_of_services} className={styles.link}>
                 Terms of Services
               </Link>
             </li>
             <li>
-              <Link href="" className={styles.link}>
+              <Link href={Routes.contact_us} className={styles.link}>
                 Contact Us
               </Link>
             </li>

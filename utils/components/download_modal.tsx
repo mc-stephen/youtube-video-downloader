@@ -6,11 +6,13 @@ import AdComponent from "./ads/ds";
 import CloseIcon from "./close-icon";
 import VideoFormats from "../types/video-format";
 import styles from "./styles/download_modal.module.css";
-import { MouseEventHandler, useCallback, useState } from "react";
-import DownloadVideoYtdlp from "../services/ytdlp-download-video";
+import { MouseEventHandler, useCallback, useRef, useState } from "react";
+import DownloadVideoYtdlp from "../services/yt-dlp/ytdlp-download-video";
 import LoadingAnimatedIcon from "@/public/icons/animated/animated_loader.svg";
+import Helper from "../services/helper";
 
-export default function DownloadModal({ active, onclick, videoData }: cc) {
+export default function DownloadModal({ onClose, videoData, ref }: cc) {
+  const currentVideoTitle = useRef("");
   const [loadingIds, setLoadingIds] = useState<number[]>([]);
 
   //===============================
@@ -52,6 +54,7 @@ export default function DownloadModal({ active, onclick, videoData }: cc) {
           console.log([videoUrl, audioFormatId, videoFormatId]);
           const videoPath = await DownloadVideoYtdlp({
             videoUrl: videoUrl,
+            videoTitle: currentVideoTitle.current,
             audioFormatId: audioFormatId == def ? null : audioFormatId,
             videoFormatId: videoFormatId == def ? null : videoFormatId,
           });
@@ -81,32 +84,36 @@ export default function DownloadModal({ active, onclick, videoData }: cc) {
   );
 
   return (
-    <section className={`${styles.section} ${active && styles.active}`}>
-      <div className={styles.box}>
-        <div className={styles.head}>
-          <b>Download Videos</b>
-          <div className={styles.iconBtn} onClick={onclick}>
-            <CloseIcon />
-          </div>
+    <dialog ref={ref} className={styles.dialog}>
+      {/*  */}
+      <div className={styles.head}>
+        <b>Download Videos</b>
+        <div className={styles.iconBtn} onClick={onClose}>
+          <CloseIcon />
         </div>
-        <div className={styles.cardCont}>
-          <AdComponent />
-          {videoData.map((val, i) => {
+      </div>
+
+      {/*  */}
+      <div className={styles.cardCont}>
+        <AdComponent />
+        {videoData.length == 0 ? (
+          <NoVideoDisplayed />
+        ) : (
+          videoData.map((val, i) => {
+            const img = `/api/proxy-image?url=${encodeURIComponent(
+              val.thumbnail
+            )}`;
             return (
               <div className={styles.card} key={i}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  // width={200}
-                  // height={200}
-                  alt={val.title}
-                  src={val.thumbnail}
-                  className={styles.img}
-                />
+                <img src={img} alt={val.title} className={styles.img} />
                 <form
                   className={styles.frontLayer}
                   onSubmit={(event) => DownloadVideo({ event: event, i: i })}
                 >
-                  <b className={styles.title}>{val.title}</b>
+                  <b className={styles.title}>
+                    {Helper.sanitizeFileName(val.title)}
+                  </b>
                   <input name="video_url" defaultValue={val.url} hidden />
                   <div className={styles.configuration}>
                     {/*  */}
@@ -151,7 +158,11 @@ export default function DownloadModal({ active, onclick, videoData }: cc) {
                   </div>
                   <div className={styles.row}>
                     <Button
+                      type="submit"
                       style={`${loadingIds.includes(i) && styles.inactive}`}
+                      onClick={() => {
+                        currentVideoTitle.current = val.title;
+                      }}
                       label={
                         !loadingIds.includes(i) ? (
                           "Download"
@@ -168,11 +179,18 @@ export default function DownloadModal({ active, onclick, videoData }: cc) {
                 </form>
               </div>
             );
-          })}
-        </div>
+          })
+        )}
       </div>
-    </section>
+    </dialog>
   );
+}
+
+//===============================
+//
+//===============================
+function NoVideoDisplayed() {
+  return <div></div>;
 }
 
 type vv = {
@@ -181,7 +199,7 @@ type vv = {
 };
 
 type cc = {
-  active: boolean;
   videoData: VideoFormats[];
-  onclick: MouseEventHandler<HTMLDivElement>;
+  onClose: MouseEventHandler<HTMLDivElement>;
+  ref: React.RefObject<HTMLDialogElement | null>;
 };

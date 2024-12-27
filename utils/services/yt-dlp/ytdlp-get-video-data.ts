@@ -1,9 +1,9 @@
 "use server";
 
-import logger from "../config/logger";
-import VideoFormats from "../types/video-format";
-import GetYoutubeVideoData from "./yt-dlp/youtube";
-import GetVideoDataUsingYtDlp from "./yt-dlp/other";
+import logger from "../../config/logger";
+import VideoFormats from "../../types/video-format";
+import GetYoutubeVideoData from "./platforms/youtube";
+import GetVideoDataUsingYtDlp from "./platforms/default";
 
 export default async function GetVideoData({
   vidUrl,

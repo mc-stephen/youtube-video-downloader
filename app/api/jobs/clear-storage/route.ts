@@ -1,6 +1,6 @@
 import fs from "fs";
-import { NextResponse } from "next/server";
 import path from "path";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   const folderPath = "./public/downloads/";
