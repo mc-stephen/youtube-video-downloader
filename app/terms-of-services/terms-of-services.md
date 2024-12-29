@@ -1,5 +1,3 @@
-**Terms of Service for VideoMax**  
-
 **Effective Date:** December 26, 2024  
 
 ---

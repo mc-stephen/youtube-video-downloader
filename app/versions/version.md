@@ -1,84 +1,81 @@
-# Versioning History
+## [Version 2024.12.29] - 29/Dec/2024
 
-<!-- ## [Version X.X.X] - YYYY-MM-DD
+### Added _(Feature)_
 
-### Added
+- Added Privacy-policy page data.
+- Added Terms-of-services page data.
+- Added Versioning page data.
 
-- Feature 1: Description of the new feature.
-- Feature 2: Description of the new feature.
+### Fixed _(Bugs)_
 
-### Fixed
-
-- Bug 1: Description of the bug fix.
-- Bug 2: Description of the bug fix.
+- Fix issue at the footer section, that makes the page show 2 scroll bar.
 
 ### Changed
 
-- Change 1: Description of the change.
-- Change 2: Description of the change.
+- Code optimization.
 
 ### Removed
 
 - Removed Feature 1: Reason for removal.
 
---- -->
+---
 
 ## [Version 2024.12.27] - 27/Dec/2024
 
-### Added
+### Added _(Feature)_
 
-- Feature 1: Added a menu button to view previously entered videos.
-- Feature 1: Added support for tiktok.
-- Feature 2: Added support for facebook.
-- Feature 2: Added support for platforms with similar codec.
+- Added a menu button to view previously entered videos.
+- Added support for tiktok.
+- Added support for facebook.
+- Added support for platforms with similar codec.
 
-### Fixed
+### Fixed _(Bugs)_
 
-- Bug 1: Fix broken link (though their pages will be empty).
-- Bug 2: Fix the header section that just shows grey card as logo.
-- Bug 3: Hidden / Minor bug fixes.
+- Fix broken link (though their pages will be empty).
+- Fix the header section that just shows grey card as logo.
+- Hidden / Minor bug fixes.
 
 ### Changed
 
-- Change 1: Change the HTML tag of the pop up dialog from <section> to the new <dialog> tag.
-- Change 2: Code optimization.
+- Change the HTML tag of the pop up dialog from <section> to the new <dialog> tag.
+- Code optimization.
 
 ### Removed
 
-- ***
+---
 
 ## [Version 2024.12.20] - 20/Dec/2024
 
-### Added
+### Added _(Feature)_
 
-- Feature 1: Improved page UI.
-- Feature 2: Added new browser favicon.
-- Feature 3: Added support for Youtube short.
-- Feature 4: Limit max video download size to 500MB (for a single video).
+- Improved page UI.
+- Added new browser favicon.
+- Added support for Youtube short.
+- Limit max video download size to 500MB (for a single video).
 
-### Fixed
+### Fixed _(Bugs)_
 
-- Bug 1: Remove Social Ads (since the pop ups are quite annoying).
-- Bug 2: Fix downloading of first video only, when 2 or more video are available.
+- Remove Social Ads (since the pop ups are quite annoying).
+- Fix downloading of first video only, when 2 or more video are available.
 
 ### Changed
 
-- Change 1: Description of the change.
+- Description of the change.
 
 ### Removed
 
-- ***
+---
 
 ## [Version 2024.12.19] - 19/Dec/2024
 
-### Added
+### Added _(Feature)_
 
-- Feature 1: Added full support for your video only.
+- Added full support for your video only.
 
-### Fixed
+### Fixed _(Bugs)_
 
-- Bug 1: Fix issue where video failed to download is special char are in the name.
+- Fix issue where video failed to download is special char are in the name.
 
 ### Changed
 
-- Change 1: Description of the change.
+- Description of the change.

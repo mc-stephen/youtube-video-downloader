@@ -2,6 +2,7 @@ import "./globals.css";
 import Script from "next/script";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import HeaderFooter from "@/utils/components/header_footer/header-footer";
 
 const geistSans = localFont({
   src: "../public/fonts/GeistVF.woff",
@@ -25,9 +26,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <HeaderFooter>{children}</HeaderFooter>
         <Script
           strategy="beforeInteractive"
           src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"

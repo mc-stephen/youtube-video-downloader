@@ -10,7 +10,7 @@ class Routes {
   static terms_of_services = "/terms-of-services";
 
   //
-  static versions = "/version";
+  static versions = "/versions";
   static contact_us = "/contact-us";
 }
 

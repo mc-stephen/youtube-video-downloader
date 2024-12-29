@@ -1,0 +1,34 @@
+.markdown {
+  width: 70%;
+  margin: 50px auto 100px auto;
+  max-width: calc(var(--max-width) * 0.8);
+
+  & > h3 > em {
+    opacity: var(--opacity);
+  }
+
+  & > h2 {
+    margin-bottom: 20px;
+  }
+
+  & a {
+    color: var(--brand-color);
+  }
+
+  & li {
+    margin: 10px 0;
+    margin-left: 20px;
+    list-style: decimal;
+    line-height: calc(var(--font-size) + 12px);
+  }
+
+  & > p {
+    margin: 20px 0;
+    line-height: calc(var(--font-size) + 12px);
+  }
+
+  & > hr {
+    opacity: 0.3;
+    margin: 40px 0;
+  }
+}

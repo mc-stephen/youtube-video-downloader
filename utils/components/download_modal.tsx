@@ -104,48 +104,52 @@ export default function DownloadModal({ onClose, videoData, ref }: cc) {
               val.thumbnail
             )}`;
             return (
-              <div className={styles.card} key={i}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={img} alt={val.title} className={styles.img} />
-                <form
-                  className={styles.frontLayer}
-                  onSubmit={(event) => DownloadVideo({ event: event, i: i })}
-                >
-                  <b className={styles.title}>
-                    {Helper.sanitizeFileName(val.title)}
-                  </b>
-                  <input name="video_url" defaultValue={val.url} hidden />
-                  <div className={styles.configuration}>
-                    {/*  */}
-                    <select name="audio_format" defaultValue="default">
-                      <option value="default" disabled hidden>
-                        Audio Format
-                      </option>
-                      {val.audio_formats.map((val, i) => (
-                        <option value={val["format_id"]} key={i}>
-                          {val["format"]}
+              <>
+                <AdComponent />
+                <div className={styles.card} key={i}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={img} alt={val.title} className={styles.img} />
+                  <form
+                    className={styles.frontLayer}
+                    onSubmit={(event) => DownloadVideo({ event: event, i: i })}
+                  >
+                    <b className={styles.title}>
+                      {Helper.sanitizeFileName(val.title)}
+                    </b>
+                    <input name="video_url" defaultValue={val.url} hidden />
+                    <div className={styles.configuration}>
+                      {/*  */}
+                      {val.audio_formats.length > 0 && (
+                        <select name="audio_format" defaultValue="default">
+                          <option value="default" disabled hidden>
+                            Audio Format
+                          </option>
+                          {val.audio_formats.map((val, i) => (
+                            <option value={val["format_id"]} key={i}>
+                              {val["format"]}
+                            </option>
+                          ))}
+                        </select>
+                      )}
+                      {/*  */}
+                      <select name="video_format" defaultValue="" required>
+                        <option value="" disabled hidden>
+                          Video Format
                         </option>
-                      ))}
-                    </select>
-                    {/*  */}
-                    <select name="video_format" defaultValue="" required>
-                      <option value="" disabled hidden>
-                        Video Format
-                      </option>
-                      {val.video_formats.map((val, i) => (
-                        <option value={val["format_id"]} key={i}>
-                          {val["format"]}
-                        </option>
-                      ))}
-                    </select>
-                    {/*  */}
-                    {/* <select name="subtitle" defaultValue="default" id="vid">
+                        {val.video_formats.map((val, i) => (
+                          <option value={val["format_id"]} key={i}>
+                            {val["format"]}
+                          </option>
+                        ))}
+                      </select>
+                      {/*  */}
+                      {/* <select name="subtitle" defaultValue="default" id="vid">
                       <option value="default" hidden>
                         Subtitle
                       </option>
                     </select> */}
-                    {/*  */}
-                    {/* <select name="caption" defaultValue="default" id="vid">
+                      {/*  */}
+                      {/* <select name="caption" defaultValue="default" id="vid">
                       <option value="default" hidden>
                         Caption
                       </option>
@@ -155,29 +159,30 @@ export default function DownloadModal({ onClose, videoData, ref }: cc) {
                         </option>
                       ))}
                     </select> */}
-                  </div>
-                  <div className={styles.row}>
-                    <Button
-                      type="submit"
-                      style={`${loadingIds.includes(i) && styles.inactive}`}
-                      onClick={() => {
-                        currentVideoTitle.current = val.title;
-                      }}
-                      label={
-                        !loadingIds.includes(i) ? (
-                          "Download"
-                        ) : (
-                          <Image
-                            src={LoadingAnimatedIcon}
-                            alt="Animated loader"
-                            className={styles.loader}
-                          />
-                        )
-                      }
-                    />
-                  </div>
-                </form>
-              </div>
+                    </div>
+                    <div className={styles.row}>
+                      <Button
+                        type="submit"
+                        style={`${loadingIds.includes(i) && styles.inactive}`}
+                        onClick={() => {
+                          currentVideoTitle.current = val.title;
+                        }}
+                        label={
+                          !loadingIds.includes(i) ? (
+                            "Download"
+                          ) : (
+                            <Image
+                              src={LoadingAnimatedIcon}
+                              alt="Animated loader"
+                              className={styles.loader}
+                            />
+                          )
+                        }
+                      />
+                    </div>
+                  </form>
+                </div>
+              </>
             );
           })
         )}
@@ -190,7 +195,7 @@ export default function DownloadModal({ onClose, videoData, ref }: cc) {
 //
 //===============================
 function NoVideoDisplayed() {
-  return <div></div>;
+  return <div>No Video Displayed Yet!</div>;
 }
 
 type vv = {

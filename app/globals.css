@@ -1,7 +1,9 @@
 :root {
   --title: 50px;
   --opacity: 0.8;
+  --font-size: 17px;
   --sub-title: 30px;
+  --max-width: 1800px;
   --border-radius: 30px;
   --background: #ffffff;
   /* --background: #ededed; */
@@ -9,6 +11,7 @@
   /* --foreground: #0a0a0a; */
   /* --foreground: #1d1d1d; */
   --brand-color: #ce0101;
+  --layer-color: #22222299;
   --secondary-background: #00000008;
 }
 
@@ -36,13 +39,13 @@ body {
 }
 
 body {
-  font-size: 17px;
   color: var(--foreground);
   padding: 20px 20px 0 20px;
+  font-size: var(--font-size);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 a {

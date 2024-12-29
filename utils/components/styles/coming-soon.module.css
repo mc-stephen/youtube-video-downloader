@@ -1,0 +1,12 @@
+.cont {
+  height: 70vh;
+  display: flex;
+  padding: 100px;
+  font-weight: bold;
+  align-items: center;
+  font-family: system-ui;
+  font-size: var(--title);
+  justify-content: center;
+  border-radius: var(--border-radius);
+  background: var(--secondary-background);
+}

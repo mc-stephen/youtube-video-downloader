@@ -5,7 +5,7 @@
 
   &[open] {
     display: flex;
-    width: max(800px);
+    width: max(750px);
     flex-direction: column;
     animation: scaleCont 0.2s;
     background: var(--background);
@@ -22,7 +22,8 @@
     align-items: center;
     /* opacity: var(--opacity); */
     color: var(--background);
-    background: var(--brand-color);
+    /* background: var(--brand-color); */
+    background: var(--foreground);
     justify-content: space-between;
 
     & > b {
@@ -33,7 +34,10 @@
       width: 60px;
       height: 55px; /* this set the height of the head*/
       transition: 0.5s;
-      background: var(--foreground);
+
+      &:hover {
+        background: var(--brand-color);
+      }
 
       & > svg {
         width: 100%;
@@ -65,7 +69,7 @@
       border-radius: 10px;
       border: 1px solid var(--foreground);
 
-      &:last-child{
+      &:last-child {
         margin-bottom: 10px;
       }
 
