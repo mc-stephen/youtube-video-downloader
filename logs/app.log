@@ -2499,3 +2499,11 @@
 {"level":"info","message":"Command Output: [download] ./public/downloads/Scenes-you-only-see-in-the-Philippines!-#walkingtour-#4k-#manila-#tondo-1080p-780.webm has already been downloaded\n","timestamp":"2025-01-03T14:08:58.215Z"}
 {"level":"info","message":"Command Output: [download] 100% of    6.28MiB\n","timestamp":"2025-01-03T14:08:58.215Z"}
 {"level":"info","message":"Process exited with code: 0","timestamp":"2025-01-03T14:08:58.352Z"}
+{"level":"info","message":"Command Output: [youtube] Extracting URL: https://www.youtube.com/shorts/LikP0SIRt-k\n","timestamp":"2025-01-03T14:17:45.851Z"}
+{"level":"info","message":"Command Output: [youtube] LikP0SIRt-k: Downloading webpage\n","timestamp":"2025-01-03T14:17:45.854Z"}
+{"level":"info","message":"Command Output: [youtube] LikP0SIRt-k: Downloading web creator player API JSON\n","timestamp":"2025-01-03T14:17:46.795Z"}
+{"level":"info","message":"Command Output: [youtube] LikP0SIRt-k: Downloading mweb player API JSON\n","timestamp":"2025-01-03T14:17:46.944Z"}
+{"level":"info","message":"Command Output: [info] LikP0SIRt-k: Downloading 1 format(s): 394\n","timestamp":"2025-01-03T14:17:48.765Z"}
+{"level":"info","message":"Command Output: [download] ./public/downloads/Scenes-you-only-see-in-the-Philippines!-#walkingtour-#4k-#manila-#tondo-256p-394.mp4 has already been downloaded\n","timestamp":"2025-01-03T14:17:48.791Z"}
+{"level":"info","message":"Command Output: [download] 100% of  503.44KiB\n","timestamp":"2025-01-03T14:17:48.792Z"}
+{"level":"info","message":"Process exited with code: 0","timestamp":"2025-01-03T14:17:48.914Z"}
