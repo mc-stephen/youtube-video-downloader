@@ -135,7 +135,10 @@ function HeadSection({ boxW }: { boxW: number }) {
         if (requestJson.data != null) {
           setIsLoading(false);
           dialog.current?.showModal();
-          setAllVideoData([...allVideoData, requestJson.data]);
+          const cc = [...allVideoData];
+          if (!cc.includes(requestJson.data)) {
+            setAllVideoData([...allVideoData, requestJson.data]);
+          }
         } else {
           console.error("[Client Error] Data is null:", requestJson);
         }

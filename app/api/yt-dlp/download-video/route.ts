@@ -28,20 +28,20 @@ export async function GET(req: NextRequest) {
   const process = spawn(command, [
     "--newline",
     ...["--max-filesize", "500M"],
-    ...["-f", `${videoFormatId ?? "best"}${audioFormatId ?? "best"}`],
+    ...["-f", `${videoFormatId ?? "best+"}${audioFormatId ?? "best"}`],
     ...["-o", `./public/downloads/${title}-%(height)sp-%(format_id)s.%(ext)s`],
     videoUrl ?? "",
   ]);
 
-  //=============================
+  //===============================
   // Early validation error return
-  //=============================
-  const validate = !videoUrl || !videoTitle || !videoFormatId || !audioFormatId;
+  //===============================
+  const validate = !videoUrl || !videoTitle || !videoFormatId;
   if (validate) {
     const status = !videoUrl || !videoTitle;
     const message = status
       ? "Video URL / Title params missing"
-      : "Video / Audio format ID params missing";
+      : "Video format ID params missing";
     return NextResponse.json({ status: false, message: message });
   }
 
