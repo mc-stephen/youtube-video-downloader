@@ -2,17 +2,15 @@
 
 import Button from "./button";
 import Image from "next/image";
-import AdComponent from "./ads/ds";
-import CloseIcon from "./close-icon";
+import CloseIconSvg from "./close-icon";
+import Helper from "../services/helper";
+import AdComponent from "./ads/ads_728x90";
 import VideoFormats from "../types/video-format";
 import styles from "./styles/download_modal.module.css";
-import { MouseEventHandler, useCallback, useRef, useState } from "react";
-import DownloadVideoYtdlp from "../services/yt-dlp/ytdlp-download-video";
+import React, { MouseEventHandler, useCallback, useState } from "react";
 import LoadingAnimatedIcon from "@/public/icons/animated/animated_loader.svg";
-import Helper from "../services/helper";
 
 export default function DownloadModal({ onClose, videoData, ref }: cc) {
-  const currentVideoTitle = useRef("");
   const [loadingIds, setLoadingIds] = useState<number[]>([]);
 
   //===============================
@@ -22,61 +20,63 @@ export default function DownloadModal({ onClose, videoData, ref }: cc) {
     async ({ i, event }: vv) => {
       event.preventDefault();
 
-      const def = "default";
       const formData = new FormData(event.target as HTMLFormElement);
-      // const caption = formData.get("subtitle")!.toString();
-      // const subtitle = formData.get("subtitle")!.toString();
-      const videoUrl = formData.get("video_url")!.toString();
-      const audioFormatId = formData.get("audio_format")?.toString() ?? def;
-      const videoFormatId = formData.get("video_format")!.toString();
-
-      // console.log(formData.get("audio_format")!.valueOf());
-
-      // return;
+      const params = new URLSearchParams();
+      for (const [key, value] of formData.entries()) {
+        params.append(key, value.toString());
+      }
 
       if (!loadingIds.includes(i)) {
+        // try {
         setLoadingIds([...loadingIds, i]);
-        // if (audioFormatId != def && videoFormatId != def) {
-        // setIsDownloading(true);
+        const origin = window.location.origin;
+        const eventSource = new EventSource(
+          `${origin}/api/yt-dlp/download-video?${params.toString()}`
+        );
 
-        // Download caption is selected
-        // if (caption != def) {
-        //   console.info("Download Caption");
-        // }
+        // Handle an open event
+        eventSource.onopen = (e) => {
+          console.log("Connection to server opened", e);
+        };
 
-        // Download subtitle if selected
-        // if (subtitle != def) {
-        //   console.info("Download Subtitle");
-        // }
+        // Handle a message event
+        eventSource.onmessage = (e) => {
+          const data = JSON.parse(e.data);
+          console.log("New message from server:", data);
+        };
 
-        // now download video is audio/video format selected
-        try {
-          console.log([videoUrl, audioFormatId, videoFormatId]);
-          const videoPath = await DownloadVideoYtdlp({
-            videoUrl: videoUrl,
-            videoTitle: currentVideoTitle.current,
-            audioFormatId: audioFormatId == def ? null : audioFormatId,
-            videoFormatId: videoFormatId == def ? null : videoFormatId,
-          });
-          if (videoPath) {
-            const { origin } = window.location;
-            const anchor = document.createElement("a");
-            const fileName = videoPath!.trim().split("/").pop();
-            const encodedFilePath = encodeURIComponent(videoPath.trim());
-            const filePath = `${origin}/api/download?file=${encodedFilePath}`;
-            //
-            anchor.href = filePath;
-            anchor.target = "_blank";
-            anchor.download = fileName!;
-            anchor.rel = "noopener noreferrer";
-            anchor.click();
-          }
-        } catch (error) {
-          console.error(`[Client Error] Download Video Failed:  ${error}`);
-        } finally {
+        // Handle errors
+        eventSource.onerror = (error) => {
+          console.error("Connection Closed:", error);
+          eventSource.close();
           const cc = loadingIds.filter((val) => val != i);
           setLoadingIds(cc);
-        }
+        };
+
+        // const videoPath = await DownloadVideoYtdlp({
+        //   videoUrl: videoUrl,
+        //   videoTitle: currentVideoTitle.current,
+        //   audioFormatId: audioFormatId == def ? null : audioFormatId,
+        //   videoFormatId: videoFormatId == def ? null : videoFormatId,
+        // });
+        // if (videoPath) {
+        //   const { origin } = window.location;
+        //   const anchor = document.createElement("a");
+        //   const fileName = videoPath!.trim().split("/").pop();
+        //   const encodedFilePath = encodeURIComponent(videoPath.trim());
+        //   const filePath = `${origin}/api/download?file=${encodedFilePath}`;
+        //   //
+        //   anchor.href = filePath;
+        //   anchor.target = "_blank";
+        //   anchor.download = fileName!;
+        //   anchor.rel = "noopener noreferrer";
+        //   anchor.click();
+        // }
+        // } catch (error) {
+        //   console.error(`[Client Error] Download Video Failed:  ${error}`);
+        // } finally {
+        // const cc = loadingIds.filter((val) => val != i);
+        // setLoadingIds(cc);
         // }
       }
     },
@@ -88,35 +88,38 @@ export default function DownloadModal({ onClose, videoData, ref }: cc) {
       {/*  */}
       <div className={styles.head}>
         <b>Download Videos</b>
-        <div className={styles.iconBtn} onClick={onClose}>
-          <CloseIcon />
+        <div className={styles.iconBtn} onClick={onClose} autoFocus={true}>
+          <CloseIconSvg />
         </div>
       </div>
 
       {/*  */}
       <div className={styles.cardCont}>
-        <AdComponent />
         {videoData.length == 0 ? (
           <NoVideoDisplayed />
         ) : (
           videoData.map((val, i) => {
+            const isTrue = loadingIds.includes(i);
             const img = `/api/proxy-image?url=${encodeURIComponent(
               val.thumbnail
             )}`;
             return (
-              <>
+              <React.Fragment key={i}>
                 <AdComponent />
-                <div className={styles.card} key={i}>
+                <div className={styles.card}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={img} alt={val.title} className={styles.img} />
                   <form
                     className={styles.frontLayer}
-                    onSubmit={(event) => DownloadVideo({ event: event, i: i })}
+                    onSubmit={(event) => {
+                      return DownloadVideo({ i: i, event: event });
+                    }}
                   >
                     <b className={styles.title}>
                       {Helper.sanitizeFileName(val.title)}
                     </b>
                     <input name="video_url" defaultValue={val.url} hidden />
+                    <input name="video_title" defaultValue={val.title} hidden />
                     <div className={styles.configuration}>
                       {/*  */}
                       {val.audio_formats.length > 0 && (
@@ -142,34 +145,14 @@ export default function DownloadModal({ onClose, videoData, ref }: cc) {
                           </option>
                         ))}
                       </select>
-                      {/*  */}
-                      {/* <select name="subtitle" defaultValue="default" id="vid">
-                      <option value="default" hidden>
-                        Subtitle
-                      </option>
-                    </select> */}
-                      {/*  */}
-                      {/* <select name="caption" defaultValue="default" id="vid">
-                      <option value="default" hidden>
-                        Caption
-                      </option>
-                      {val.captions.map((val, i) => (
-                        <option value={i} key={i}>
-                          {val["ext"]} / {val["name"]}
-                        </option>
-                      ))}
-                    </select> */}
                     </div>
-                    <div className={styles.row}>
+                    <div className={`${styles.row} ${isTrue && styles.busy}`}>
                       <Button
                         type="submit"
-                        style={`${loadingIds.includes(i) && styles.inactive}`}
-                        onClick={() => {
-                          currentVideoTitle.current = val.title;
-                        }}
+                        style={`${isTrue && styles.inactive}`}
                         label={
-                          !loadingIds.includes(i) ? (
-                            "Download"
+                          !isTrue ? (
+                            <span>Download</span>
                           ) : (
                             <Image
                               src={LoadingAnimatedIcon}
@@ -182,7 +165,7 @@ export default function DownloadModal({ onClose, videoData, ref }: cc) {
                     </div>
                   </form>
                 </div>
-              </>
+              </React.Fragment>
             );
           })
         )}
@@ -195,7 +178,7 @@ export default function DownloadModal({ onClose, videoData, ref }: cc) {
 //
 //===============================
 function NoVideoDisplayed() {
-  return <div>No Video Displayed Yet!</div>;
+  return <div style={{ textAlign: "center" }}>No Video Displayed Yet!</div>;
 }
 
 type vv = {

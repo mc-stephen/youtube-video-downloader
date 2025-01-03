@@ -1,3 +1,23 @@
+## [Version 2024.12.30] - 30/Dec/2024
+
+### Added _(Feature)_
+
+- Added the "auto-focus" attribute to the close icon/button within the dialog element, enabling the Esc key press to close the dialog without requiring a click to set focus inside it. 
+
+### Fixed _(Bugs)_
+
+- Fix issue where video file failed to download, because it has more than one spacing: _notice by a friend_.
+
+### Changed
+
+- Code optimization.
+
+### Removed
+
+- Removed Feature 1: Reason for removal.
+
+---
+
 ## [Version 2024.12.29] - 29/Dec/2024
 
 ### Added _(Feature)_
@@ -15,8 +35,6 @@
 - Code optimization.
 
 ### Removed
-
-- Removed Feature 1: Reason for removal.
 
 ---
 

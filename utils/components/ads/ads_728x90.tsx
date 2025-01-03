@@ -1,11 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function AdComponent() {
   const [adLoaded, setAdLoaded] = useState(false);
+  const adContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    if (!adContainerRef.current) return;
+
+    const container = adContainerRef.current;
+
     const scriptConfig = document.createElement("script");
     scriptConfig.type = "text/javascript";
     scriptConfig.innerHTML = `
@@ -17,23 +22,19 @@ export default function AdComponent() {
         'params': {}
       };
     `;
-    document.getElementById("ad-container")!.appendChild(scriptConfig);
 
     const scriptInvoke = document.createElement("script");
     scriptInvoke.type = "text/javascript";
-    scriptInvoke.src =
-      "//www.highperformanceformat.com/4945fed10e731eb25ae3f7817d2b095d/invoke.js";
+    const adsDomain = "https://www.highperformanceformat.com";
+    scriptInvoke.src = `${adsDomain}/4945fed10e731eb25ae3f7817d2b095d/invoke.js`;
+    scriptInvoke.onload = () => setAdLoaded(true);
 
-    // Detect when the script finishes loading
-    scriptInvoke.onload = () => {
-      setAdLoaded(true); // Mark the ad as loaded
-    };
-
-    document.getElementById("ad-container")!.appendChild(scriptInvoke);
+    container.appendChild(scriptConfig);
+    container.appendChild(scriptInvoke);
   }, []);
 
   return (
-    <div id="ad-container" style={{ textAlign: "center" }}>
+    <div ref={adContainerRef} style={{ textAlign: "center" }}>
       {!adLoaded && (
         <div style={{ height: 90, width: 728, backgroundColor: "#f0f0f0" }}>
           Loading ad...

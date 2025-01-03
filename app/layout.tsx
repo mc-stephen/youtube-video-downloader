@@ -40,10 +40,10 @@ export default function RootLayout({
           src="//pl25310938.profitablecpmrate.com/0b/d5/5a/0bd55ae2bbf0383b9f67bd622c7d11e7.js"
         /> */}
         {/* on page ads */}
-        <Script
+        {/* <Script
           type="text/javascript"
           src="//pl25310954.profitablecpmrate.com/5b/4e/a2/5b4ea29bc5560e0b834949033e3ad891.js"
-        />
+        /> */}
       </body>
     </html>
   );

@@ -1,9 +1,9 @@
 "use server";
 
-import Variables from "../../variable";
+import Variables from "../variable";
 import { execSync } from "child_process";
-import logger from "../../../config/logger";
-import VideoFormats from "../../../types/video-format";
+import logger from "../../config/logger";
+import VideoFormats from "../../types/video-format";
 
 export default async function GetVideoDataUsingYtDlp({
   vidUrl,

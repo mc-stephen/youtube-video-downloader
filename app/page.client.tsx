@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import {} from "next/navigation";
 import styles from "./page.module.css";
 import LineBg from "../public/images/line.png";
 import Woman from "../public/images/woman.png";
@@ -15,7 +16,6 @@ import VideoFormats from "../utils/types/video-format";
 import RenderTurnstile from "../utils/services/turnstile";
 import DownloadModal from "../utils/components/download_modal";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import GetVideoData from "../utils/services/yt-dlp/ytdlp-get-video-data";
 import LoadingAnimatedIcon from "../public/icons/animated/animated_loader.svg";
 import {
   TwitterSvg,
@@ -64,28 +64,6 @@ function HeadSection({ boxW }: { boxW: number }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showTurnstile, setShowTurnstile] = useState<boolean>(false);
   const [allVideoData, setAllVideoData] = useState<VideoFormats[]>([]);
-  // const nav: Record<string, string>[] = [
-  //   {
-  //     label: "Donate",
-  //     path: Routes.donate,
-  //   },
-  //   {
-  //     label: "About Us",
-  //     path: Routes.about_us,
-  //   },
-  //   {
-  //     label: "Extensions",
-  //     path: Routes.extension,
-  //   },
-  //   {
-  //     label: "More Tools",
-  //     path: Routes.more_tools,
-  //   },
-  //   {
-  //     label: "Special Thanks",
-  //     path: Routes.special_thanks,
-  //   },
-  // ];
   const socials = [
     {
       icon: <LinkedInSvg />,
@@ -137,32 +115,32 @@ function HeadSection({ boxW }: { boxW: number }) {
   //==========================
   //
   //==========================
-  const sendRequest = useCallback(() => {
+  const sendRequest = useCallback(async () => {
     const formElement = formRef.current;
     const formData = new FormData(formElement!);
     const videoUrl = formData.get("video_url")!.valueOf().toString();
     const urlRegex =
       /^(https?:\/\/)?(www\.)?([\w\-]+\.)+[\w]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/i;
-    if (turnstileToken.current != null) {
-      if (urlRegex.test(videoUrl)) {
-        setIsLoading(true);
-        setShowTurnstile(false);
-        const request = GetVideoData({
-          vidUrl: videoUrl,
-          turnstileClientToken: turnstileToken.current,
-        });
-        request
-          .then((res) => {
-            if (res) {
-              console.log(res);
-              setIsLoading(false);
-              dialog.current?.showModal();
-              setAllVideoData([...allVideoData, res]);
-            }
-          })
-          .catch((err) => {
-            console.error("[Client Error] Getting Video Data", err);
-          });
+    if (turnstileToken.current != null && urlRegex.test(videoUrl)) {
+      setIsLoading(true);
+      setShowTurnstile(false);
+      const url = `${window.location.origin}/api/yt-dlp/get-video-metadata`;
+      const params = new URLSearchParams({
+        videoUrl: videoUrl,
+        turnstileClientToken: turnstileToken.current,
+      }).toString();
+      const request = await fetch(`${url}?${params}`);
+      const requestJson = await request.json();
+      if (requestJson.status == true) {
+        if (requestJson.data != null) {
+          setIsLoading(false);
+          dialog.current?.showModal();
+          setAllVideoData([...allVideoData, requestJson.data]);
+        } else {
+          console.error("[Client Error] Data is null:", requestJson);
+        }
+      } else {
+        console.error("[Client Error] Getting Video Data:", requestJson);
       }
     }
   }, [allVideoData]);
@@ -197,23 +175,6 @@ function HeadSection({ boxW }: { boxW: number }) {
         {/* FRONT Layer */}
         {/*==============================*/}
         <div className={styles.frontLayer}>
-          {/* <header>
-            <div className={styles.logo}>
-              <h1>{process.env.NEXT_PUBLIC_APP_NAME}</h1>
-            </div>
-            <ul className={styles.other}>
-              {nav.map((val, i) => {
-                return (
-                  <li key={i}>
-                    <Link href={val.path} className={styles.link}>
-                      {val.label}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </header> */}
-
           {/*  */}
           <div className={styles.sliderCont}>
             <div className={styles.card}>
@@ -473,108 +434,3 @@ function WhyUseUsSection() {
     </section>
   );
 }
-
-//==================
-//
-//==================
-// function FooterSection({ boxW }: { boxW: number }) {
-//   const currentYear = new Date().getFullYear();
-//   const [openFaqId, setOpenFaqId] = useState<number>(3);
-//   const boxH: number = 900; // if value is changes also looked at it css
-//   const faq = [
-//     {
-//       title: `What is ${process.env.NEXT_PUBLIC_APP_NAME} Downloader?`,
-//       content:
-//         "VideoMax Downloader is an online tool that allows users to download videos and music from various platforms directly to their devices. It supports high-quality downloads and is compatible with multiple formats, making it convenient for offline viewing or listening.",
-//     },
-//     {
-//       title: `Is ${process.env.NEXT_PUBLIC_APP_NAME} Downloader free?`,
-//       content:
-//         "Yes, VideoMax Downloader is completely free to use. It allows users to download videos and music from various platforms, such as YouTube, without any cost or subscription fees. The tool offers high-quality downloads and supports multiple formats, making it a convenient and accessible option for anyone looking to save content for offline use.",
-//     },
-//     {
-//       title: "Where are the video stored?",
-//       content:
-//         'When you use VideoMax Downloader, downloaded videos are stored directly on your device, typically in the default "Downloads" folder. The exact location may vary depending on your device and browser settings. Check your browser\'s download preferences to confirm or customize the save location.',
-//     },
-//     {
-//       title: "Can we download unlimited?",
-//       content:
-//         "Yes, VideoMax Downloader allows unlimited downloads, so you can save as many videos or music files as you want without any restrictions. There are no caps on the number of downloads or the file size, making it a convenient tool for extensive use.",
-//     },
-//   ];
-//   return (
-//     <section className={styles.footerSection}>
-//       <div className={styles.svgBg}>
-//         <SvgBgFooter boxH={boxH} boxW={boxW - 40} />
-//       </div>
-//       <div className={styles.frontLayer}>
-//         <Image
-//           src={LineBg}
-//           alt="Ling Bg Pattern"
-//           className={styles.bgPattern}
-//         />
-//         <div className={styles.titleCont}>
-//           <span>Frequently</span>
-//           <b>
-//             Asked <span>Questions</span>
-//           </b>
-//         </div>
-//         <div className={styles.faqCont}>
-//           {faq.map((val, i) => {
-//             const isOpened = openFaqId == i && styles.opened;
-//             return (
-//               <div key={i} className={`${styles.faq} ${isOpened}`}>
-//                 <div
-//                   className={styles.titleCont}
-//                   onClick={() => setOpenFaqId(i)}
-//                 >
-//                   <span className={styles.order}>0{i + 1}.</span>
-//                   <b className={styles.title}>{val.title}</b>
-//                   <Image
-//                     src={ArrowDown}
-//                     alt="Arrow Down"
-//                     className={`${styles.arrowIcon} ${isOpened}`}
-//                   />
-//                 </div>
-//                 <span className={styles.content}>{val.content}</span>
-//               </div>
-//             );
-//           })}
-//         </div>
-//         <footer className={styles.footer}>
-//           <span>@ 2024-{currentYear} YouTube Downloader</span>
-//           <div className={styles.middleCont}>
-//             <Image
-//               width="100"
-//               height="100"
-//               alt="code-fork"
-//               className={styles.img}
-//               src="https://img.icons8.com/ios/100/versions.png"
-//             />
-//             <Link href={Routes.versions} className={styles.version}>
-//               2024.12.20
-//             </Link>
-//           </div>
-//           <ul>
-//             <li>
-//               <Link href={Routes.privacy_policy} className={styles.link}>
-//                 Privacy Policy
-//               </Link>
-//             </li>
-//             <li>
-//               <Link href={Routes.terms_of_services} className={styles.link}>
-//                 Terms of Services
-//               </Link>
-//             </li>
-//             <li>
-//               <Link href={Routes.contact_us} className={styles.link}>
-//                 Contact Us
-//               </Link>
-//             </li>
-//           </ul>
-//         </footer>
-//       </div>
-//     </section>
-//   );
-// }

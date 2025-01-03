@@ -1,5 +1,5 @@
 class Variables {
-  static currentVersion = "2024.12.29";
+  static currentVersion = "2024.12.30";
   static ytdlp_path = "./utils/command/yt-dlp";
 
   // yt-dlp flag

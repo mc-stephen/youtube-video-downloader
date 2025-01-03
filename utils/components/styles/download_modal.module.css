@@ -126,22 +126,62 @@
         > .row {
           gap: 10px;
           display: flex;
+          width: fit-content;
+          position: relative;
           align-items: center;
+
+          &.busy::after {
+            top: 50%;
+            left: 50%;
+            content: "";
+            width: 40px;
+            height: 40px;
+            filter: unset;
+            margin-left: 5px;
+            position: absolute;
+            border-radius: 100%;
+            transform: translateY(-50%);
+            animation: showVideoSize 0.5s forwards;
+          }
 
           & > button {
             width: 100px;
             height: 40px;
+            display: flex;
             font-size: 15px;
+            overflow: hidden;
+            position: relative;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid red;
+            border-style: dotted;
             background: var(--brand-color);
 
             &:hover,
             &.inactive {
-              filter: invert();
+              filter: unset;
+              color: var(--foreground);
+              background: var(--background);
+            }
+
+            &::before {
+              left: 0;
+              top: 50%;
+              width: 20%;
+              content: "";
+              height: 100%;
+              position: absolute;
               background: var(--foreground);
+              transform: translateY(-50%);
+            }
+
+            & > span{
+              position: relative;
             }
 
             .loader {
               height: 20px;
+              filter: invert();
               width: fit-content;
               object-fit: contain;
             }
@@ -162,5 +202,20 @@
   }
   to {
     transform: scale(1);
+  }
+}
+
+@keyframes showVideoSize {
+  from {
+    left: 50%;
+    opacity: 0;
+    filter: invert();
+    background: var(--foreground);
+  }
+  to {
+    left: 100%;
+    opacity: 0.8;
+    filter: unset;
+    background: var(--brand-color);
   }
 }

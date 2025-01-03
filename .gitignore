@@ -42,3 +42,4 @@ next-env.d.ts
 # My Project CMD Files
 /utils/command/
 /public/downloads/
+/utils/cookies.txt

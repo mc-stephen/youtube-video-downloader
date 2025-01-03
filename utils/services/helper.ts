@@ -6,7 +6,9 @@ class Helper {
     title: string,
     maxLength: number = 100
   ): string => {
-    const sanitizedTitle = title.replace(/[<>:"/\\|?*]/g, "");
+    const sanitizedTitle = title
+      .replace(/[<>:"/\\|?*]/g, "")
+      .replaceAll(" ", "-");
     return sanitizedTitle.length > maxLength
       ? `${sanitizedTitle.slice(0, maxLength).trim()}...`
       : sanitizedTitle;
